@@ -15,6 +15,7 @@ CREATE TABLE book (
 DROP TABLE IF EXISTS prompt;
 CREATE TABLE prompt (
   id bigint unsigned NOT NULL,
+  parent_id bigint unsigned DEFAULT NULL,
   prompt_set int unsigned NOT NULL,
   level int unsigned NOT NULL,
   position int unsigned NOT NULL,
@@ -31,6 +32,7 @@ CREATE TABLE prompt_response (
   id bigint unsigned NOT NULL,
   book_id bigint unsigned NOT NULL,
   prompt_id bigint unsigned NOT NULL,
+  position int unsigned NOT NULL DEFAULT 0,
   created_on int unsigned NOT NULL,
   prompt_hash varchar(256) NOT NULL,
   prompt_text TEXT NOT NULL,
@@ -43,3 +45,4 @@ CREATE TABLE prompt_response (
   PRIMARY KEY (id),
   UNIQUE KEY promt_constraint (prompt_hash)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

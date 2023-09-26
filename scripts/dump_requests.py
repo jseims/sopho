@@ -264,17 +264,23 @@ def make_requests2():
 
     return request_list
 
+def dump_request(request, file):
+    data = {"model" : model, "messages" : request["messages"], "metadata" : request["metadata"]}
+
+    json_string = json.dumps(data)
+    file.write(json_string + "\n")
+
+
 def main(argv):
+    request_list = []
     request_list = make_requests2()
     chunk_size = 10
 
-    for index in range(int(len(request_list) / chunk_size)):
-        print("creating requests for index %s out of %s" % (index, int(len(request_list) / chunk_size)))
-        api = OpenAIMultiClient(endpoint="chats", data_template={"model": model}, max_retries=5)
-        api.run_request_function(invoke_api, request_list, index, chunk_size)
-        api.pull_all()
-        print("pull all done")
-        break
+    with open("requests.json", "w") as f:
+        for request in request_list:
+            print("doing it")
+            dump_request(request, f)
+            print("done")
 
 if __name__ == "__main__":
    main(sys.argv[1:])
