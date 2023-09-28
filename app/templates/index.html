@@ -9,6 +9,7 @@
 
     <!-- Le styles -->
     <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/app.css') }}">
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -59,25 +60,13 @@
       </div>
 
 
+      <div>
+        <ul class="thumbnails" id="book_list"></ul>
+      </div>
 
-      <ul class="thumbnails">
-        <li class="span2">
-          <div class="thumbnail">
-            <img src="https://m.media-amazon.com/images/I/51uuXs3tzlL._SY466_.jpg" alt="">
-            <h5>The Rational Optimist: How Prosperity Evolves</h5>
-            <p>By Matt Ridley</p>
-          </div>
-        </li>
+      <div id="book_content">
 
-        <li class="span2">
-          <div class="thumbnail">
-            <img src="https://m.media-amazon.com/images/I/51uuXs3tzlL._SY466_.jpg" alt="">
-            <h5>The Rational Optimist: How Prosperity Evolves</h5>
-            <p>By Matt Ridley</p>
-          </div>
-        </li>
-
-      </ul>
+      </div>
 
     </div> <!-- /container -->
 
@@ -85,6 +74,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{{ url_for('static', path='/js/jquery-3.7.1.js') }}"></script>
+    <script src="{{ url_for('static', path='/js/bootstrap-tab.js') }}"></script>
     <script src="{{ url_for('static', path='/js/app.js') }}"></script>
 
   </body>
