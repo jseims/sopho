@@ -67,7 +67,7 @@ app.view = {
                 html += '<li>';
             }
             
-            html += '<a href="#' + i + '" data-toggle="tab" onclick="app.model.load_book(' + app.model.current_book.id + ', ' + app.model.prompts[i].id + ')">' + app.model.prompts[i].label + '</a></li>';
+            html += '<a data-toggle="tab" onclick="app.model.load_book(' + app.model.current_book.id + ', ' + app.model.prompts[i].id + ')">' + app.model.prompts[i].label + '</a></li>';
         }
 
         html += '</ul> <div class="tab-content">';
@@ -81,7 +81,7 @@ app.view = {
             html += '<p id="tab1-' + app.model.prompts[i].name + '">';
             
             if (i+1 == app.model.current_prompt_id) {
-                list = app.model.response_list;
+                var list = app.model.response_list;
                 content_html = "";
                 if (app.model.prompts[i].name == "test") {
                     content_html = app.view.create_test_content(list);
@@ -113,6 +113,18 @@ app.view = {
         return html;
     },
 
+    create_sublist_content : function(list) {
+        var html = '';
+
+        for(var i = 0; i < list.length; i++) {
+            html += '<div class="response-sub-point">';
+            html += list[i];
+            html += '</div>'
+            html += '<div id="sub_point_' + i + '"></div>';
+        }
+        return html;
+    },
+
     display_subresponse : function() {
         // remove old 
         var old_name = "#point_" + app.model.old_position
@@ -131,7 +143,7 @@ app.view = {
                 html += '<li>';
             }
             
-            html += '<a href="#' + i + '" data-toggle="tab" onclick="app.model.load_subresponse(' + app.model.current_position + ', ' + i + ')">' + app.model.sub_prompts[i].label + '</a></li>';
+            html += '<a data-toggle="tab" onclick="app.model.load_subresponse(' + app.model.current_position + ', ' + i + ')">' + app.model.sub_prompts[i].label + '</a></li>';
         }
 
         html += '</ul> <div class="tab-content">';
@@ -145,7 +157,13 @@ app.view = {
             html += '<p id="sub-tab1-' + app.model.sub_prompts[i].name + '">';
             
             if (app.model.sub_prompts[i].id == app.model.current_parent_prompt_id) {
-                html += app.model.subresponse_text;
+                var list = app.model.subresponse_list;
+                if (app.model.sub_prompts[i].name == "test") {
+                    content_html = app.view.create_test_content(list);
+                } else {
+                    content_html = app.view.create_sublist_content(list);
+                }
+                html += content_html;
             }
             html += '</p></div>';
         }
@@ -166,7 +184,7 @@ app.model = {
     current_position : 0,
     response_list : [],
     sub_prompts : [],
-    subresponse_text : "",
+    subresponse_list : [],
 
     // load books
     get_books_url : "get_books",
@@ -198,7 +216,7 @@ app.model = {
         $.getJSON(this.get_subresponse_url + "?book_id=" + app.model.current_book.id + "&prompt_id=" + app.model.current_prompt_id + "&position=" + position + "&parent_index=" + parent_index, function(json) {
             app.log(json);
             app.model.sub_prompts = json.prompt_list;
-            app.model.subresponse_text = json.response_list;
+            app.model.subresponse_list = json.response_list;
             app.model.old_position = app.model.current_position;
             app.model.current_position = position;
             app.model.current_parent_prompt_id = json.active_prompt_id;
