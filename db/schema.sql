@@ -23,7 +23,7 @@ CREATE TABLE prompt (
   system_text varchar(8096) NOT NULL,
   prompt_text varchar(8096) NOT NULL,
   name varchar(256) NOT NULL,
-  label varchar(256) NOT NULL,
+  label varchar(256) NOT NULL, 
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

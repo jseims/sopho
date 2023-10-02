@@ -57,6 +57,11 @@ async def get_book_content(book_id, prompt_id):
     prompt_list = cursor.fetchall()
     result['prompt_list'] = prompt_list
 
+    query = "SELECT * FROM prompt WHERE parent_id = %s ORDER BY position"
+    cursor.execute(query, [prompt_id])
+    subprompt_list = cursor.fetchall()
+    result['subprompt_list'] = subprompt_list
+
     query = "SELECT * FROM prompt_response WHERE book_id = %s AND prompt_id = %s"
     cursor.execute(query, [book_id, prompt_id])
     prompt_response = cursor.fetchone()

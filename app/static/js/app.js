@@ -84,7 +84,7 @@ app.view = {
                 var list = app.model.response_list;
                 content_html = "";
                 if (app.model.prompts[i].name == "test") {
-                    content_html = app.view.create_test_content(list);
+                    content_html = app.view.create_test_content(list, 1);
                 } else {
                     content_html = app.view.create_list_content(list);
                 }
@@ -97,8 +97,61 @@ app.view = {
         app.view.$book_content.html(html);
     },
 
-    create_test_content : function(list) {
-        return "<p>Test!</p>";
+    test_click : function(num, answer, level) {
+        var list = [];
+        if (level == 1) {
+            list = app.model.response_list;
+        } else if (level == 2) {
+            list = app.model.subresponse_list;
+        }
+        var item = list[num];
+        var answer_map = {"A)" : 0, "B)" : 1, "C)" : 2, "D)" : 3};
+        var click_index = answer_map[answer]
+        var correct_index = answer_map[item['answer']]
+        var answer_element = $("#test_answer_" + num);
+        var click_btn_element = $("#test_btn_" + click_index + "_" + num);
+        var correct_btn_element = $("#test_btn_" + correct_index + "_" + num);
+
+        // remove all red button
+        for (var i = 0; i < 4; i++) {
+            var btn = $("#test_btn_" + i + "_" + num);
+            btn.removeClass("btn-danger");
+        }
+
+        var answer_html = ""
+        if (click_index == correct_index) {
+            answer_html += "<p>Correct!";
+            click_btn_element.addClass("btn-success")
+        } else {
+            answer_html += "<p>Wrong!";
+            click_btn_element.addClass("btn-danger")
+            correct_btn_element.addClass("btn-success")
+        }
+
+        if (level == 1) {
+            answer_html += '<div class="response-point" onclick="app.model.load_subresponse(' + num + ', 0)">';
+            answer_html += item['explanation'];
+            answer_html += '</div>'
+            answer_html += '<div id="point_' + num + '"></div>';
+        } else {
+            answer_html += "<p>" + item['explanation'];
+        }
+        answer_element.html(answer_html);
+    },
+
+    create_test_content : function(list, level) {
+        var html = "";
+
+        for(var i = 0; i < list.length; i++) {
+            item = list[i];
+            html += "<h3>" + (i+1) + ": " + item.question + "</h3>";
+            html += "<button id='test_btn_0_" + i + "' class='btn' style='padding: 10px; margin: 10px;' onclick=\"app.view.test_click(" + i + ", 'A)', " + level + ")\">" + item["A)"] + "</button>";
+            html += "<button id='test_btn_1_" + i + "' class='btn' style='padding: 10px; margin: 10px;' onclick=\"app.view.test_click(" + i + ", 'B)', " + level + ")\">" + item["B)"] + "</button>";
+            html += "<button id='test_btn_2_" + i + "' class='btn' style='padding: 10px; margin: 10px;' onclick=\"app.view.test_click(" + i + ", 'C)', " + level + ")\">" + item["C)"] + "</button>";
+            html += "<button id='test_btn_3_" + i + "' class='btn' style='padding: 10px; margin: 10px;' onclick=\"app.view.test_click(" + i + ", 'D)', " + level + ")\">" + item["D)"] + "</button>";
+            html += "<div id='test_answer_" + i + "'></div>"
+        }
+        return html;
     },
 
     create_list_content : function(list) {
@@ -132,6 +185,8 @@ app.view = {
         var old_element = $(old_name);
         var new_element = $(new_name);
 
+        app.log("old_element length " + old_element.length);
+
         old_element.html("");
 
         var html = '';
@@ -158,8 +213,11 @@ app.view = {
             
             if (app.model.sub_prompts[i].id == app.model.current_parent_prompt_id) {
                 var list = app.model.subresponse_list;
+                var content_html = "";
                 if (app.model.sub_prompts[i].name == "test") {
-                    content_html = app.view.create_test_content(list);
+                    content_html = '<div class="response-sub-point">';
+                    content_html += app.view.create_test_content(list, 2);
+                    content_html += "</div>"
                 } else {
                     content_html = app.view.create_sublist_content(list);
                 }
@@ -170,6 +228,7 @@ app.view = {
         html += '</div></div>';
 
         new_element.html(html);
+        app.log("new_element length " + new_element.length);
     }
 
 };
@@ -179,7 +238,7 @@ app.model = {
     current_book : null,
     prompts : [],
     current_prompt_id : 1,
-    current_parent_prompt_id : 1,
+    current_parent_prompt_id : -1,
     old_position : 0,
     current_position : 0,
     response_list : [],
@@ -205,13 +264,17 @@ app.model = {
             app.log(json);
             app.model.current_book = app.find_in_list(app.model.books, "id", book_id);
             app.model.prompts = json.prompt_list;
+            app.model.sub_prompts = json.subprompt_list;
             app.model.response_list = json.response_list;
+            app.model.subresponse_list = json.subresponse_list;
             app.model.current_prompt_id = prompt_id
             app.view.book_selected();
         });
     },
 
-    load_subresponse : function (position, parent_index) {
+    // position is how far down the list of content got clicked
+    // parent_index is which subprompt is open by default in the result
+    load_subresponse : function (position, parent_index) {        
         app.log("load_subresponse position " + position + " parent_index " + parent_index)
         $.getJSON(this.get_subresponse_url + "?book_id=" + app.model.current_book.id + "&prompt_id=" + app.model.current_prompt_id + "&position=" + position + "&parent_index=" + parent_index, function(json) {
             app.log(json);
