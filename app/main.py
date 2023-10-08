@@ -65,8 +65,12 @@ async def get_book_content(book_id, prompt_id):
     query = "SELECT * FROM prompt_response WHERE book_id = %s AND prompt_id = %s"
     cursor.execute(query, [book_id, prompt_id])
     prompt_response = cursor.fetchone()
-    response_list = json.loads(prompt_response['response_text'])
-    result['response_list'] = response_list
+
+    query = "SELECT * FROM response_piece WHERE prompt_response_id = %s ORDER BY position"
+    cursor.execute(query, [prompt_response['id']])
+    response_pieces = cursor.fetchall()
+
+    result['response_list'] = response_pieces
 
     return result
 
@@ -87,8 +91,12 @@ async def get_book_content(book_id, prompt_id, position, parent_index : int):
         query = "SELECT * FROM prompt_response WHERE book_id = %s AND prompt_id = %s AND position = %s"
         cursor.execute(query, [book_id, active_prompt_id, position])
         prompt_response = cursor.fetchone()
-        response_list = json.loads(prompt_response['response_text'])
-        result['response_list'] = response_list
+
+        query = "SELECT * FROM response_piece WHERE prompt_response_id = %s ORDER BY position"
+        cursor.execute(query, [prompt_response['id']])
+        response_pieces = cursor.fetchall()
+
+        result['response_list'] = response_pieces
         result['active_prompt_id'] = active_prompt_id
 
     return result

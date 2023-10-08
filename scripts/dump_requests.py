@@ -276,11 +276,15 @@ def main(argv):
     request_list = make_requests2()
     chunk_size = 10
 
+    print("starting %s requests" % len(request_list))
     with open("requests.json", "w") as f:
         for request in request_list:
             print("doing it")
             dump_request(request, f)
             print("done")
+        f.close()
+    print("done")
+
 
 if __name__ == "__main__":
    main(sys.argv[1:])

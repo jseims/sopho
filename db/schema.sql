@@ -11,6 +11,19 @@ CREATE TABLE book (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS book_content;
+CREATE TABLE book_content (
+  id bigint unsigned NOT NULL,
+  book_id bigint unsigned NOT NULL,
+  position int unsigned NOT NULL,
+  page int unsigned DEFAULT 0,
+  text TEXT NOT NULL,
+  vector_stored int unsigned DEFAULT 0,
+  PRIMARY KEY (id),
+  KEY lookup1 (book_id, position),
+  KEY lookup2 (book_id, page)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 DROP TABLE IF EXISTS prompt;
 CREATE TABLE prompt (
@@ -44,5 +57,17 @@ CREATE TABLE prompt_response (
   error int unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (id),
   UNIQUE KEY promt_constraint (prompt_hash)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS response_piece;
+CREATE TABLE response_piece (
+  id bigint unsigned NOT NULL,
+  prompt_response_id bigint unsigned NOT NULL,
+  position int unsigned NOT NULL DEFAULT 0,
+  text TEXT NOT NULL,
+  matches TEXT DEFAULT NULL,
+  text_type ENUM('book_text', 'test_question', 'heading', 'plain_text'),
+  PRIMARY KEY (id),
+  UNIQUE KEY rp_constraint (prompt_response_id, position)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

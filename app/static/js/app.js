@@ -104,7 +104,7 @@ app.view = {
         } else if (level == 2) {
             list = app.model.subresponse_list;
         }
-        var item = list[num];
+        var item =  JSON5.parse(list[num].text);
         var answer_map = {"A)" : 0, "B)" : 1, "C)" : 2, "D)" : 3};
         var click_index = answer_map[answer]
         var correct_index = answer_map[item['answer']]
@@ -142,8 +142,10 @@ app.view = {
     create_test_content : function(list, level) {
         var html = "";
 
+        //debugger;
+
         for(var i = 0; i < list.length; i++) {
-            item = list[i];
+            var item =  JSON5.parse(list[i].text);
             html += "<h3>" + (i+1) + ": " + item.question + "</h3>";
             html += "<button id='test_btn_0_" + i + "' class='btn' style='padding: 10px; margin: 10px;' onclick=\"app.view.test_click(" + i + ", 'A)', " + level + ")\">" + item["A)"] + "</button>";
             html += "<button id='test_btn_1_" + i + "' class='btn' style='padding: 10px; margin: 10px;' onclick=\"app.view.test_click(" + i + ", 'B)', " + level + ")\">" + item["B)"] + "</button>";
@@ -159,7 +161,7 @@ app.view = {
 
         for(var i = 0; i < list.length; i++) {
             html += '<div class="response-point" onclick="app.model.load_subresponse(' + i + ', 0)">';
-            html += list[i];
+            html += list[i].text;
             html += '</div>'
             html += '<div id="point_' + i + '"></div>';
         }
@@ -171,7 +173,7 @@ app.view = {
 
         for(var i = 0; i < list.length; i++) {
             html += '<div class="response-sub-point">';
-            html += list[i];
+            html += list[i].text;
             html += '</div>'
             html += '<div id="sub_point_' + i + '"></div>';
         }

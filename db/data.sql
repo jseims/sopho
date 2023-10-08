@@ -25,7 +25,7 @@ DELETE FROM prompt;
 
 INSERT INTO `prompt` VALUES 
   (1, NULL, 1, 1, 1, 'unknown_category', 
-  "You are a detail-oriented professor with complete and accurate information about books.  You are talking to a college student eager to understand books.  Your answers will explain to the best of your abilities and be truthful.  You will always respond in json format.  If you don't know the answer to a question, respond with {'error' : 'I do not know'}", 
+  "You are the detail-oriented professor with complete and accurate information about books.  You are talking to a college student eager to understand books.  Your answers will explain to the best of your abilities and be truthful.  You will always respond in json format.  If you don't know the answer to a question, respond with {'error' : 'I do not know'}", 
   "Summarize the book %s by %s.  If the book has multiple chapters that reflect how the content naturally organizes, please create a summary for each chapter with a paragraph of text that explains the key points of that chapter.  If the book is not naturally organized into chapters then summarize into 5-10 paragraphs, each one explaining a portion of the book's content. Respond with a valid JSON array that lists these paragraphs as ['paragraph 1'], ['paragraph 2'], ['paragraph 3']",
   "summary", "Summary"),
   (2, NULL, 1, 1, 2, 'unknown_category', 
