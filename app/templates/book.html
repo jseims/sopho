@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+      <div id="book_content"></div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript"> 
+  app.model.load_book({{id}}, 1); 
+</script> 
+{% endblock %}

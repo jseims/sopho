@@ -49,7 +49,6 @@ CREATE TABLE prompt_response (
   created_on int unsigned NOT NULL,
   prompt_hash varchar(256) NOT NULL,
   prompt_text TEXT NOT NULL,
-  response_text TEXT NOT NULL,
   llm varchar(256) DEFAULT NULL,
   compute_time int unsigned NOT NULL DEFAULT 0,
   prompt_tokens int unsigned NOT NULL DEFAULT 0,

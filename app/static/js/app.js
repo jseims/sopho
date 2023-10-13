@@ -44,20 +44,26 @@ app.view = {
         app.log(app.model.books);
         for(var i = 0; i < app.model.books.length; i++) {
             book = app.model.books[i];
-            html += '<li class="span2"> <div class="thumbnail" onclick="app.model.load_book(' + book.id + ', 1)"> <img src="';
+            html += '<li class="span2"> <a href="/book?id=' + book.id + '"> <div class="thumbnail"> <img src="';
             html += book.image_url;
             html += '" alt=""> <h5>';
             html += book.title;
             html += '</h5> <p></p>'
             html += book.author;
-            html += '</p> </div> </li>'
+            html += '</p> </div> </a> </li>'
         }
         app.view.$book_list.html(html);
     },
 
     book_selected : function() {
         var html = "";
-        html += "<p>" + app.model.current_book.title;
+        html += '<div class="row">';
+        html += '<span class="span3"> <img src="' + app.model.current_book.image_url + '"> </span>';
+        html += '<span class="span9"> <h1>' + app.model.current_book.title + '</h1>'; 
+        html += '<p>By ' + app.model.current_book.author;
+        html += '<p><a class="btn btn-primary" href="' + app.model.current_book.amazon_url + '">Amazon Link</a>';
+        html += '</span>';
+        html += "</div>"
 
         html += '<div class="tabbable"> <ul class="nav nav-tabs">';
         for(var i = 0; i < app.model.prompts.length; i++) {
@@ -173,7 +179,7 @@ app.view = {
 
         for(var i = 0; i < list.length; i++) {
             html += '<div class="response-sub-point">';
-            html += list[i].text;
+            html += '<a href="/text_search?id=' + list[i].id + '">' + list[i].text + '</a>';
             html += '</div>'
             html += '<div id="sub_point_' + i + '"></div>';
         }
@@ -263,6 +269,7 @@ app.model = {
 
     load_book : function (book_id, prompt_id) {
         $.getJSON(this.get_book_content_url + "?book_id=" + book_id + "&prompt_id=" + prompt_id, function(json) {
+            app.log("loaded book for id " + book_id);
             app.log(json);
             app.model.current_book = app.find_in_list(app.model.books, "id", book_id);
             app.model.prompts = json.prompt_list;
@@ -287,8 +294,12 @@ app.model = {
             app.model.current_parent_prompt_id = json.active_prompt_id;
             app.view.display_subresponse();
         });
-    }
+    },
 
+    load_text_search : function(response_piece_id) {
+
+        
+    }
 
 };
 

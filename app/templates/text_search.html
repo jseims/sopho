@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+      <div class="row">
+        <span class="span8">
+          <p>Showing sections of book similar to:</p>
+          <p id="response_piece_text"></p>
+        </span>
+        <span class="span4">
+          <button id="back_btn" class="btn" onclick="app.view.click_back_response_piece()"><< Back</button>
+          <button id="next_btn" class="btn" onclick="app.view.click_next_response_piece()">Next >></button>
+        </span>
+      </div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript"> 
+  app.model.load_text_search({{id}}); 
+</script> 
+{% endblock %}

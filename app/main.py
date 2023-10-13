@@ -30,6 +30,7 @@ logger = logging.getLogger("api")
 templates = Jinja2Templates(directory='templates/')
 app.mount('/template/static', StaticFiles(directory="static"), name="static")
 
+# Html pages
 @app.get("/")
 async def index(request: Request):
     result = "Enter your name"
@@ -37,6 +38,19 @@ async def index(request: Request):
         "index.html", context={"request": request, "result": result}
     )
 
+@app.get("/book")
+async def book_view(request: Request, id):
+    return templates.TemplateResponse(
+        "book.html", context={"request": request, "id": id}
+    )
+
+@app.get("/text_search")
+async def book_view(request: Request, id):
+    return templates.TemplateResponse(
+        "text_search.html", context={"request": request, "id": id}
+    )
+
+# API handlers
 @app.get("/get_books")
 async def get_books(request: Request):
     cursor = conn.cursor(MySQLdb.cursors.DictCursor)
