@@ -62,6 +62,8 @@ def query(sql, args=None, as_dict=True):
 class Storage(dict):
     def __getattr__(self, key): 
         try:
+            if key == '__pydantic_validator__':
+                return None
             return self[key]
         except KeyError as k:
             raise Exception(AttributeError + k)

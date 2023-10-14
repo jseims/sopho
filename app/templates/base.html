@@ -1,61 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Sopho: Learn Books from AI</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <!-- Le styles -->
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/app.css') }}">
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-    </style>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap-responsive.css') }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <title>Sopho | Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap.new.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='/css/app.css') }}">
+</head>
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-    <![endif]-->
+<body>
+  <main class="float-start w-100 main-wrap">
 
-    <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
-  </head>
+      <!-- Beginning header section -->
+      {% block header %}
+      <header class="float-start w-100 cod-gray-bg header-wrap position-relative">
+          <div class="container">
+              <div class="w-100 d-flex flex-row flex-wrap align-items-center header-inner">
+                  <div class="logo-wrap d-flex align-items-center justify-content-between">
+                      <div class="main-logo float-start">
+                          <a href="/"><img src="{{ url_for('static', path='/svgs/logo.svg') }}" alt="logo"></a>
+                      </div>
+                      <div class="hamburger-wrap d-flex flex-row flex-wrap">
+                          <div class="header-search-wrap position-relative d-flex d-lg-none">
+                              <div class="header-search">
+                                  <input type="search" placeholder="Search here">
+                                  <input type="submit" value="submit">
+                              </div>
+                              <div class="header-search-icon">
+                                  <img src="{{ url_for('static', path='/svgs/search.svg') }}" alt="search">
+                              </div>
+                          </div>
+                          <div class="hamburger d-flex align-items-center">
+                              <div class="w-100 position-relative"></div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="nav-wrap">
+                      <div class="nav-inner">
+                      <nav class="main-nav">
+                          <ul class="w-100 p-0 m-0 list-unstyled d-block d-md-flex d-lg-flex flex-row flex-wrap align-items-center">
+                              <li class=""><a href="#" class="active">Home</a></li>
+                              <li><a href="#">About</a></li>
+                              <li><a href="#">Contact</a></li>
+                          </ul>
+                      </nav>
+                      <div class="header-btn-wrap d-flex flex-row flex-wrap align-items-center position-relative">
+                          <div class="header-search-wrap position-relative d-none d-lg-block">
+                              <div class="header-search">
+                                  <input type="search" placeholder="Search here">
+                                  <input type="submit" value="submit">
+                              </div>
+                              <div class="header-search-icon">
+                                  <img src="{{ url_for('static', path='/svgs/search.svg') }}" alt="search">
+                              </div>
+                          </div>
+                          <div class="header-btn d-flex">
+                              <a href="#" class="btn login-btn">Login</a>
+                              <a href="#" class="btn sign-btn"><img src="{{ url_for('static', path='/svgs/profile.svg') }}" alt="profile"> Sign up</a>
+                          </div>
+                      </div>
+                  </div>
+                  </div>
+              </div>
+          </div>
+      </header>
+      <!-- End header section -->
+      {% endblock %}
 
-  <body>
+  
+    <!-- Beginning main content section -->
+    <section class="main-content-wrap section">
 
-    {% block header %}
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">Sopho</a>
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
+      <div class="container">
+        {% block content %}{% endblock %}
       </div>
-    </div>
-    {% endblock %}
-
-    <div class="container">
-
-      {% block content %}{% endblock %}
+      
+    </section>
+    <!-- End main content section -->
 
       {% block footer %}
       <footer class="text-center text-lg-start bg-white text-muted">

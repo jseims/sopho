@@ -58,14 +58,17 @@ app.view = {
     book_selected : function() {
         var html = "";
         html += '<div class="row">';
-        html += '<span class="span3"> <img src="' + app.model.current_book.image_url + '"> </span>';
-        html += '<span class="span9"> <h1>' + app.model.current_book.title + '</h1>'; 
+        html += '<span style="width: 400px; padding: 20px;"> <img src="' + app.model.current_book.image_url + '" width=300px> </span>';
+        html += '<span style="width: 800px;"> <h1>' + app.model.current_book.title + '</h1>'; 
         html += '<p>By ' + app.model.current_book.author;
         html += '<p><a class="btn btn-primary" href="' + app.model.current_book.amazon_url + '">Amazon Link</a>';
+        html += '<p><a class="btn btn-primary" href="/test_me?book_id=' + app.model.current_book.id + '">Test Me</a>';
         html += '</span>';
         html += "</div>"
 
-        html += '<div class="tabbable"> <ul class="nav nav-tabs">';
+        html += '<div class="tabbable">'; 
+        /*
+        html += '<ul class="nav nav-tabs">';
         for(var i = 0; i < app.model.prompts.length; i++) {
             if (i+1 == app.model.current_prompt_id) {
                 html += '<li class="active">';
@@ -75,8 +78,9 @@ app.view = {
             
             html += '<a data-toggle="tab" onclick="app.model.load_book(' + app.model.current_book.id + ', ' + app.model.prompts[i].id + ')">' + app.model.prompts[i].label + '</a></li>';
         }
-
-        html += '</ul> <div class="tab-content">';
+        html += '</ul>';
+        */
+        html += '<div class="tab-content">';
 
         for(var i = 0; i < app.model.prompts.length; i++) {
             html += '<div class="tab-pane';
@@ -178,7 +182,19 @@ app.view = {
         var html = '';
 
         for(var i = 0; i < list.length; i++) {
-            html += '<div class="response-sub-point">';
+            html += '<div class="response-sub-point" onclick="app.view.load_subsubresponse(' + i + ')">';
+            html += list[i].text;
+            html += '</div>'
+            html += '<div id="sub_point_' + i + '"></div>';
+        }
+        return html;
+    },
+
+    create_subsublist_content : function(list) {
+        var html = '';
+
+        for(var i = 0; i < list.length; i++) {
+            html += '<div class="response-sub-sub-point">';
             html += '<a href="/text_search?id=' + list[i].id + '">' + list[i].text + '</a>';
             html += '</div>'
             html += '<div id="sub_point_' + i + '"></div>';
@@ -186,10 +202,49 @@ app.view = {
         return html;
     },
 
+    load_subsubresponse : function(index) {
+        app.model.current_subposition = index;
+        var old_name = "#sub_point_" + app.model.old_subposition;
+        var new_name = "#sub_point_" + app.model.current_subposition;
+        var old_element = $(old_name);
+        var new_element = $(new_name);
+        app.model_old_subposition = index;
+
+        old_element.html("");
+
+        var html = '';
+        html += '<div class="tabbable">';
+        html += '<p><a class="btn btn-primary response-sub-sub-point" href="/test_me?book_id=' + app.model.current_book.id + '">Test Me on this Section</a>';
+
+        html += '<div class="tab-content">';
+
+        for(var i = 0; i < app.model.sub_prompts.length; i++) {
+            html += '<div class="tab-pane';
+            if (app.model.sub_prompts[i].id == app.model.current_parent_prompt_id) {
+                html += ' active';
+            }
+            html += '" id="' + i + '">';
+            html += '<p id="sub-tab1-' + app.model.sub_prompts[i].name + '">';
+            
+            if (app.model.sub_prompts[i].id == app.model.current_parent_prompt_id) {
+                var list = app.model.subresponse_list;
+                var content_html = "";
+                content_html = app.view.create_subsublist_content(list);
+                html += content_html;
+            }
+            html += '</p></div>';
+        }
+        html += '</div></div>';
+
+        new_element.html(html);
+        app.log("new_element length " + new_element.length);
+        
+    },
+
     display_subresponse : function() {
         // remove old 
-        var old_name = "#point_" + app.model.old_position
-        var new_name = "#point_" + app.model.current_position
+        var old_name = "#point_" + app.model.old_position;
+        var new_name = "#point_" + app.model.current_position;
         var old_element = $(old_name);
         var new_element = $(new_name);
 
@@ -198,7 +253,9 @@ app.view = {
         old_element.html("");
 
         var html = '';
-        html += '<div class="tabbable"> <ul class="nav nav-tabs">';
+        html += '<div class="tabbable">';
+        /*
+        html += '<ul class="nav nav-tabs">';
         for(var i = 0; i < app.model.sub_prompts.length; i++) {
             if (app.model.sub_prompts[i].id == app.model.current_parent_prompt_id) {
                 html += '<li class="active">';
@@ -209,7 +266,11 @@ app.view = {
             html += '<a data-toggle="tab" onclick="app.model.load_subresponse(' + app.model.current_position + ', ' + i + ')">' + app.model.sub_prompts[i].label + '</a></li>';
         }
 
-        html += '</ul> <div class="tab-content">';
+        html += '</ul>';
+        */
+        html += '<p><a class="btn btn-primary response-sub-point" href="/test_me?book_id=' + app.model.current_book.id + '">Test Me on this Section</a>';
+
+        html += '<div class="tab-content">';
 
         for(var i = 0; i < app.model.sub_prompts.length; i++) {
             html += '<div class="tab-pane';
@@ -237,6 +298,41 @@ app.view = {
 
         new_element.html(html);
         app.log("new_element length " + new_element.length);
+    },
+
+    display_book_matches : function() {
+        $("#response_piece_text").html(app.model.match_text);
+        $("#response_piece_search_position").html('Showing simliar match ' + (app.model.cur_match+1) + ' out of ' + app.model.matches.length);
+        $("#book_page_text").html('Page ' + app.model.cur_page + ' out of ' + app.model.max_page);
+
+        // create back breadcrumb
+        var html = '<img src=' + app.model.content_info.image_url + ' width=100px> <a href=/book?id=' + app.model.content_info.book_id + '>';
+        html += '<< Back to ' + app.model.content_info.title + '</a>'
+        $("#back_breadcrumb").html(html);
+
+        // content to display
+        var content = "";
+        for(var i = 0; i < app.model.text_list.length; i++) {
+            var text_obj = app.model.text_list[i];
+            if (text_obj.id == app.model.content_info.id) {
+                content += '<p style="color: blue;">'
+            } else {
+                content += '<p>'
+            }
+            content += text_obj.text;
+        }
+        $("#book_text").html(content);
+
+        // set next / back search and page buttons
+        $('#back_search_btn').removeAttr('onclick');
+        $('#back_search_btn').attr('onClick', 'app.model.set_match_index(' + (app.model.cur_match - 1) + ');');
+        $('#next_search_btn').removeAttr('onclick');
+        $('#next_search_btn').attr('onClick', 'app.model.set_match_index(' + (app.model.cur_match + 1) + ');');
+        
+        $('#back_page_btn').removeAttr('onclick');
+        $('#back_page_btn').attr('onClick', 'app.model.load_page(' + app.model.content_info.book_id + ', ' + (app.model.cur_page - 1) + ');');
+        $('#next_page_btn').removeAttr('onclick');
+        $('#next_page_btn').attr('onClick', 'app.model.load_page(' + app.model.content_info.book_id + ', ' + (app.model.cur_page + 1) + ');');
     }
 
 };
@@ -249,6 +345,8 @@ app.model = {
     current_parent_prompt_id : -1,
     old_position : 0,
     current_position : 0,
+    old_subposition : 0,
+    current_subposition : 0,
     response_list : [],
     sub_prompts : [],
     subresponse_list : [],
@@ -257,6 +355,9 @@ app.model = {
     get_books_url : "get_books",
     get_book_content_url : "get_book_content",
     get_subresponse_url : "get_subresponse",
+    load_book_matches_url : "load_book_matches",
+    load_match_index_url : "load_match_index",
+    load_page_url : "load_page",
 
     get_books : function() {
         app.log(this.get_books_url);            
@@ -271,7 +372,7 @@ app.model = {
         $.getJSON(this.get_book_content_url + "?book_id=" + book_id + "&prompt_id=" + prompt_id, function(json) {
             app.log("loaded book for id " + book_id);
             app.log(json);
-            app.model.current_book = app.find_in_list(app.model.books, "id", book_id);
+            app.model.current_book = json.book_info;
             app.model.prompts = json.prompt_list;
             app.model.sub_prompts = json.subprompt_list;
             app.model.response_list = json.response_list;
@@ -296,12 +397,48 @@ app.model = {
         });
     },
 
-    load_text_search : function(response_piece_id) {
+    load_book_matches : function(response_piece_id) {
+        app.log("load_text_search id " + response_piece_id)
+        $.getJSON(this.load_book_matches_url + "?id=" + response_piece_id, function(json) {
+            app.log(json);
+            app.model.match_text = json.match_text;
+            app.model.content_info = json.content_info;
+            app.model.text_list = json.text_list;
+            app.model.matches = json.matches;
+            app.model.max_page = json.max_page;
+            app.model.cur_page = app.model.content_info.page
+            app.model.cur_match = 0
+            app.view.display_book_matches();
+        });
+    },
 
-        
+    set_match_index : function(match_index) {
+        app.log("set_search_index id " + match_index)
+        if (match_index >= 0 && match_index < app.model.matches.length) {
+            $.getJSON(this.load_match_index_url + "?id=" + app.model.matches[match_index], function(json) {
+                app.log(json);
+                app.model.content_info = json.content_info;
+                app.model.text_list = json.text_list;
+                app.model.cur_page = app.model.content_info.page
+                app.model.cur_match = match_index
+                app.view.display_book_matches();
+            })
+        }
+    },
+
+    load_page : function(book_id, page) {
+        app.log("load_page book id " + book_id + " page " + page)
+        if (page > 0 && page <= app.model.max_page) {
+            $.getJSON(this.load_page_url + "?book_id=" + book_id + "&page=" + page, function(json) {
+                app.log(json);
+                app.model.text_list = json.text_list;
+                app.model.cur_page = page
+                app.view.display_book_matches();
+            })
+        }
     }
+
 
 };
 
 app.view.init();
-app.model.get_books();

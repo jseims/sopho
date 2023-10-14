@@ -2,18 +2,33 @@
 
 
 {% block content %}
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit" style="align-items: center; vertical-align: middle;">
-        <div class="row" style="align-items: center; vertical-align: middle;">
-          <div class="span3">
-            <img src="{{ url_for('static', path='/img/sopho_brain1.png') }}" width="300px">
-          </div>
-          <div class="span6 offset1">
-            <h1 style="margin-top:75px">Let ChatGPT4 Teach you Books!</h1>
-            <p>Click a book below to begin</p>
-          </div>
-        </div>
-      </div>
+            <!-- Hero section start -->
+            <section class="float-start w-100 cod-gray-bg position-relative hero-wrap">
+              <div class="container">
+                  <div class="hero-inner d-flex flex-wrap flex-row position-relative justify-content-center">
+                      <div class="hero-bg float-start w-100 h-100 position-absolute top-0 start-0">
+                          <figure class="float-start w-100 h-100 m-0">
+                              <img src="{{ url_for('static', path='/img/hero-bg.png') }}" alt="hero-bg" class="img-fluid float-start w-100 h-100">
+                          </figure>
+                      </div>
+                      <div class="hero-content-and-thumb d-flex flex-row flex-wrap justify-content-between align-items-center w-100 position-relative">
+                          <div class="hero-content">
+                              <h1 class="white-text">Let <span>ChatGPT4</span> Teach Books!</h1>
+                              <p class="lead-text light-gray-text">Books are a vast and diverse topic, so feel free to share your knowledge, ask questions.</p>
+                              <div class="hero-content-btn w-100">
+                                  <a href="#" class="btn primary-btn"><span>Click a Book</span></a>
+                              </div>
+                          </div>
+                          <div class="hero-thumb">
+                              <figure class="float-start w-100 m-0">
+                                  <img src="{{ url_for('static', path='/img/hero-thumb.png') }}" alt="hero-thumb" class="img-fluid w-100 rounded-circle">
+                              </figure>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+          <!-- Hero section end -->
 
 
       <div>
@@ -23,4 +38,10 @@
       <div id="book_content">
 
       </div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript"> 
+  app.model.get_books();
+</script> 
 {% endblock %}

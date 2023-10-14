@@ -2,20 +2,44 @@
 
 
 {% block content %}
-      <div class="row">
-        <span class="span8">
-          <p>Showing sections of book similar to:</p>
-          <p id="response_piece_text"></p>
-        </span>
-        <span class="span4">
-          <button id="back_btn" class="btn" onclick="app.view.click_back_response_piece()"><< Back</button>
-          <button id="next_btn" class="btn" onclick="app.view.click_next_response_piece()">Next >></button>
-        </span>
-      </div>
+<div class="row" style="padding: 20px;">
+  <span class="span11">
+    <div id="back_breadcrumb"></div>
+  </span>
+</div>
+
+
+<div class="row"> 
+  <span style="width: 1000px;">
+    <p>Showing sections of book similar to:</p>
+    <p id="response_piece_text"></p>
+  </span>
+  <span style="width: 300px;">
+    <button id="back_search_btn" class="btn" onclick="app.view.click_back_response_piece()"><< Back</button>
+    <button id="next_search_btn" class="btn" onclick="app.view.click_next_response_piece()">Next >></button>
+    <p id="response_piece_search_position"></p>
+  </span>
+</div>
+
+<div class="row">
+  <span class="span11" style="border:1px solid black;">
+    <p id="book_text"></p>
+  </span>
+</div>
+
+<div class="row">
+  <span class="span10">
+    <button id="back_page_btn" class="btn" onclick="app.view.click_back_page()"><< Previous Page</button>
+    <span id="book_page_text"></span>
+    <button id="next_page_btn" class="btn" onclick="app.view.click_next_page()">Next Page >></button>
+  </span>
+</div>
+
+
 {% endblock %}
 
 {% block javascript %}
 <script type="text/javascript"> 
-  app.model.load_text_search({{id}}); 
+  app.model.load_book_matches("{{id}}"); 
 </script> 
 {% endblock %}
