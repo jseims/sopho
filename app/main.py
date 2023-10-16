@@ -119,6 +119,8 @@ async def load_book_matches(id):
         matches = json.loads(rp_info['matches'])
         title = rp_info['title']
         image_url = rp_info['image_url']
+        response['title'] = title
+        response['image_url'] = image_url
 
         response['matches'] = matches
         if len(matches) > 0:
@@ -126,10 +128,10 @@ async def load_book_matches(id):
 
             query = "SELECT * FROM book_content WHERE id = %s"
             content_info = list(db.query(query, [match]))[0]
-            content_info['title'] = title
-            content_info['image_url'] = image_url
             str_bigint([content_info], ["id"])
             response['content_info'] = content_info
+            response['title'] = title
+            response['image_url'] = image_url
 
             query = "SELECT max(page) FROM book_content WHERE book_id = %s"
             page_count_info = list(db.query(query, [book_id]))[0]
@@ -167,6 +169,5 @@ async def load_page(book_id, page):
     text_list = list(db.query(query, [book_id, page]))
     str_bigint(text_list, ["id"])
     response['text_list'] = text_list
-    cursor.close()
 
     return response

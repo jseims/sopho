@@ -306,8 +306,8 @@ app.view = {
         $("#book_page_text").html('Page ' + app.model.cur_page + ' out of ' + app.model.max_page);
 
         // create back breadcrumb
-        var html = '<img src=' + app.model.content_info.image_url + ' width=100px> <a href=/book?id=' + app.model.content_info.book_id + '>';
-        html += '<< Back to ' + app.model.content_info.title + '</a>'
+        var html = '<img src=' + app.model.image_url + ' width=100px> <a href=/book?id=' + app.model.content_info.book_id + '>';
+        html += '<< Back to ' + app.model.title + '</a>'
         $("#back_breadcrumb").html(html);
 
         // content to display
@@ -403,6 +403,8 @@ app.model = {
             app.log(json);
             app.model.match_text = json.match_text;
             app.model.content_info = json.content_info;
+            app.model.title = json.title;
+            app.model.image_url = json.image_url;
             app.model.text_list = json.text_list;
             app.model.matches = json.matches;
             app.model.max_page = json.max_page;
