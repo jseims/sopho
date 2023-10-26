@@ -8,6 +8,7 @@ import db
 
 
 # Database configuration
+DEFAULT_PROMPT_SET = 0
 try:
   from localsettings import *
 except:
@@ -48,12 +49,12 @@ async def test_me(request: Request, book_id):
 # API handlers
 @app.get("/get_books")
 async def get_books(request: Request):
-    books = list(db.query("""SELECT * FROM book"""))
+    books = list(db.query("""SELECT * FROM book ORDER BY id DESC"""))
 
     return books
 
 @app.get("/get_book_content")
-async def get_book_content(book_id, prompt_id):
+async def get_book_content(book_id):
     result = {}
 
 
@@ -61,18 +62,34 @@ async def get_book_content(book_id, prompt_id):
     prompt_response = list(db.query(query, [book_id]))
     result['book_info'] = prompt_response[0]
 
-    prompt_list = list(db.query("""SELECT * FROM prompt WHERE level = 1"""))
-    result['prompt_list'] = prompt_list
+    prompt_list = list(db.query("""SELECT id, name, label, position FROM prompt WHERE level = 1 AND prompt_set = %s ORDER BY position""", [DEFAULT_PROMPT_SET]))
+    #result['prompt_list'] = prompt_list
 
-    subprompt_list = list(db.query("""SELECT * FROM prompt WHERE level = 1"""))
-    result['subprompt_list'] = subprompt_list
+    # not sure why this is here
+    # result['subprompt_list'] = prompt_list
 
-    query = "SELECT * FROM prompt_response WHERE book_id = %s AND prompt_id = %s"
-    prompt_response = list(db.query(query, [book_id, prompt_id]))[0]
+    prompt_response_list = []
+    for prompt in prompt_list:
+        item = {}
+        item['prompt'] = prompt
 
-    query = "SELECT * FROM response_piece WHERE prompt_response_id = %s ORDER BY position"
-    response_pieces = list(db.query(query, [prompt_response['id']]))
-    result['response_list'] = response_pieces
+        query = "SELECT * FROM prompt_response WHERE book_id = %s AND prompt_id = %s"
+        prompt_response = list(db.query(query, [book_id, prompt['id']]))
+
+        if len(prompt_response) != 1:
+            # log this error
+            continue
+
+        prompt_response_id = prompt_response[0]['id']
+
+        query = "SELECT * FROM response_piece WHERE prompt_response_id = %s ORDER BY position"
+        response_pieces = list(db.query(query, [prompt_response_id]))
+        str_bigint(response_pieces, ["id", "prompt_response_id"])
+        item['response_list'] = response_pieces
+
+        prompt_response_list.append(item)
+
+    result['prompt_response_list'] = prompt_response_list
 
     return result
 
@@ -83,28 +100,34 @@ def str_bigint(item_list, key_list):
             item[key] = str(item[key])
 
 @app.get("/get_subresponse")
-async def get_subresponse(book_id, prompt_id, position, parent_index : int):
+async def get_subresponse(response_piece_id):
     result = {}
 
+    query = "SELECT * FROM prompt_response WHERE response_piece_id = %s ORDER BY prompt_id"
+    prompt_responses = list(db.query(query, [response_piece_id]))
 
-    query = "SELECT * FROM prompt WHERE parent_id = %s ORDER BY position"
-    prompt_list = list(db.query(query, [prompt_id]))
-    result['prompt_list'] = prompt_list
+    prompt_response_list = []
+    for prompt_response in prompt_responses:
+        item = {}
 
-    if len(prompt_list) > parent_index:
-        active_prompt_id = prompt_list[parent_index]['id']
+        query = "SELECT id, name, label, position FROM prompt WHERE id = %s ORDER BY position"
+        prompt = list(db.query(query, [prompt_response['prompt_id']]))[0]
 
-        query = "SELECT * FROM prompt_response WHERE book_id = %s AND prompt_id = %s AND position = %s"
-        prompt_response = list(db.query(query, [book_id, active_prompt_id, position]))[0]
+        if prompt['name'] == 'test':
+            continue
+
+        item['prompt'] = prompt
 
         query = "SELECT * FROM response_piece WHERE prompt_response_id = %s ORDER BY position"
         response_pieces = list(db.query(query, [prompt_response['id']]))
         str_bigint(response_pieces, ["id", "prompt_response_id"])
+        item['response_list'] = response_pieces
+        prompt_response_list.append(item)
 
-        result['response_list'] = response_pieces
-        result['active_prompt_id'] = active_prompt_id
+    result['subprompt_response_list'] = prompt_response_list
 
     return result
+
 
 @app.get("/load_book_matches")
 async def load_book_matches(id):

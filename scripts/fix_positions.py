@@ -34,10 +34,14 @@ def insertFromDict(table, dict):
 def fix_position(book_id, prompt_id):
     prompt_responses = list(db.query("""SELECT id, position FROM prompt_response WHERE book_id = %s AND prompt_id = %s ORDER BY position""", [book_id, prompt_id]))
 
-    print(prompt_responses)
     for i in range(len(prompt_responses)):
-        db.query("""UPDATE prompt_response SET position = %s WHERE id = %s""", [i, prompt_responses[i]['id']])
+        pr_id = prompt_responses[i]['id']
+        db.query("""UPDATE prompt_response SET position = %s WHERE id = %s""", [i, pr_id])
 
+        response_pieces = list(db.query("""SELECT id, position FROM response_piece WHERE prompt_response_id = %s ORDER BY position""", [pr_id]))
+        for j in range(len(response_pieces)):
+            rp_id = response_pieces[j]['id']
+            db.query("""UPDATE response_piece SET position = %s WHERE id = %s""", [j, rp_id])
 
 
 def main(argv):

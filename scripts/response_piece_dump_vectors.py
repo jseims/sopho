@@ -27,8 +27,11 @@ def make_requests():
         #print(prompt)
         id = response['id']
         text_type = response['text_type']
-        text = response['text']
 
+        if text_type == 'plain_text':
+            continue
+
+        text = response['text']
         if text_type == "test_question":
             try:
                 item = ast.literal_eval(text)

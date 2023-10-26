@@ -1,5 +1,12 @@
 use sopho;
 
+create database sopho; 
+CREATE USER 'ubuntu'@'localhost' IDENTIFIED BY '123qwe';
+GRANT ALL PRIVILEGES ON * . * TO 'ubuntu'@'localhost';
+FLUSH PRIVILEGES;
+
+
+
 DROP TABLE IF EXISTS book;
 CREATE TABLE book (
   id bigint unsigned NOT NULL,
@@ -45,7 +52,7 @@ CREATE TABLE prompt_response (
   id bigint unsigned NOT NULL,
   book_id bigint unsigned NOT NULL,
   prompt_id bigint unsigned NOT NULL,
-  position int unsigned NOT NULL DEFAULT 0,
+  response_piece_id bigint unsigned DEFAULT NULL,
   created_on int unsigned NOT NULL,
   prompt_hash varchar(256) NOT NULL,
   prompt_text TEXT NOT NULL,

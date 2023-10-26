@@ -1,2 +1,4 @@
 localsettings.py
 *.pyc
+test_results/
+book_text/

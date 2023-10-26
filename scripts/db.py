@@ -51,8 +51,9 @@ def query(sql, args=None, as_dict=True):
         else:
             return rows
     except MySQLdb.OperationalError as e:
-        error_code, error_msg = e
-        # retry if connection was dropped
+        (error_code, error_msg) = e.args
+        
+        # retry if connection was dropped                
         if error_code in [2006, 2013]: 
             dbc = None
             return query(sql, args, **kwargs)

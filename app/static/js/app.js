@@ -66,43 +66,15 @@ app.view = {
         html += '</span>';
         html += "</div>"
 
-        html += '<div class="tabbable">'; 
-        /*
-        html += '<ul class="nav nav-tabs">';
-        for(var i = 0; i < app.model.prompts.length; i++) {
-            if (i+1 == app.model.current_prompt_id) {
-                html += '<li class="active">';
-            } else {
-                html += '<li>';
-            }
-            
-            html += '<a data-toggle="tab" onclick="app.model.load_book(' + app.model.current_book.id + ', ' + app.model.prompts[i].id + ')">' + app.model.prompts[i].label + '</a></li>';
-        }
-        html += '</ul>';
-        */
-        html += '<div class="tab-content">';
 
-        for(var i = 0; i < app.model.prompts.length; i++) {
-            html += '<div class="tab-pane';
-            if (i+1 == app.model.current_prompt_id) {
-                html += ' active';
-            }
-            html += '" id="' + i + '">';
-            html += '<p id="tab1-' + app.model.prompts[i].name + '">';
+        html += '<div>';
+        for(var i = 0; i < app.model.prompt_response_list.length; i++) {
             
-            if (i+1 == app.model.current_prompt_id) {
-                var list = app.model.response_list;
-                content_html = "";
-                if (app.model.prompts[i].name == "test") {
-                    content_html = app.view.create_test_content(list, 1);
-                } else {
-                    content_html = app.view.create_list_content(list);
-                }
-                html += content_html;
-            }
-            html += '</p></div>';
+            var list = app.model.prompt_response_list;
+            var content_html = app.view.create_list_content(list[i].response_list);
+            html += content_html;
         }
-        html += '</div></div>';
+        html += '</div>';
 
         app.view.$book_content.html(html);
     },
@@ -139,7 +111,7 @@ app.view = {
         }
 
         if (level == 1) {
-            answer_html += '<div class="response-point" onclick="app.model.load_subresponse(' + num + ', 0)">';
+            answer_html += '<div class="response-point" onclick="app.model.load_subresponse(' + num + ')">';
             answer_html += item['explanation'];
             answer_html += '</div>'
             answer_html += '<div id="point_' + num + '"></div>';
@@ -168,9 +140,8 @@ app.view = {
 
     create_list_content : function(list) {
         var html = '';
-
         for(var i = 0; i < list.length; i++) {
-            html += '<div class="response-point" onclick="app.model.load_subresponse(' + i + ', 0)">';
+            html += '<div class="response-point" onclick="app.model.load_subresponse(\'' + list[i]['id'] +  '\', ' + i + ')">';
             html += list[i].text;
             html += '</div>'
             html += '<div id="point_' + i + '"></div>';
@@ -182,7 +153,7 @@ app.view = {
         var html = '';
 
         for(var i = 0; i < list.length; i++) {
-            html += '<div class="response-sub-point" onclick="app.view.load_subsubresponse(' + i + ')">';
+            html += '<div class="response-sub-point" onclick="app.model.load_subsubresponse(\'' + list[i]['id'] +  '\', ' + i + ')">';
             html += list[i].text;
             html += '</div>'
             html += '<div id="sub_point_' + i + '"></div>';
@@ -190,55 +161,25 @@ app.view = {
         return html;
     },
 
-    create_subsublist_content : function(list) {
+    create_subsublist_content : function(prompt, list) {
         var html = '';
+
+        html += '<div class="response-sub-sub-point">';
+        html += '<h3>' + prompt.label + "</h3>";
+        html += '</div>'
+        html += '<div id="sub_point_' + i + '"></div>';
 
         for(var i = 0; i < list.length; i++) {
             html += '<div class="response-sub-sub-point">';
-            html += '<a href="/text_search?id=' + list[i].id + '">' + list[i].text + '</a>';
+            if (prompt.name == "discussion") {
+                html += list[i].text;
+            } else {
+                html += '<a href="/text_search?id=' + list[i].id + '">' + list[i].text + '</a>';            
+            }
             html += '</div>'
             html += '<div id="sub_point_' + i + '"></div>';
         }
         return html;
-    },
-
-    load_subsubresponse : function(index) {
-        app.model.current_subposition = index;
-        var old_name = "#sub_point_" + app.model.old_subposition;
-        var new_name = "#sub_point_" + app.model.current_subposition;
-        var old_element = $(old_name);
-        var new_element = $(new_name);
-        app.model_old_subposition = index;
-
-        old_element.html("");
-
-        var html = '';
-        html += '<div class="tabbable">';
-        html += '<p><a class="btn btn-primary response-sub-sub-point" href="/test_me?book_id=' + app.model.current_book.id + '">Test Me on this Section</a>';
-
-        html += '<div class="tab-content">';
-
-        for(var i = 0; i < app.model.sub_prompts.length; i++) {
-            html += '<div class="tab-pane';
-            if (app.model.sub_prompts[i].id == app.model.current_parent_prompt_id) {
-                html += ' active';
-            }
-            html += '" id="' + i + '">';
-            html += '<p id="sub-tab1-' + app.model.sub_prompts[i].name + '">';
-            
-            if (app.model.sub_prompts[i].id == app.model.current_parent_prompt_id) {
-                var list = app.model.subresponse_list;
-                var content_html = "";
-                content_html = app.view.create_subsublist_content(list);
-                html += content_html;
-            }
-            html += '</p></div>';
-        }
-        html += '</div></div>';
-
-        new_element.html(html);
-        app.log("new_element length " + new_element.length);
-        
     },
 
     display_subresponse : function() {
@@ -254,51 +195,48 @@ app.view = {
 
         var html = '';
         html += '<div class="tabbable">';
-        /*
-        html += '<ul class="nav nav-tabs">';
-        for(var i = 0; i < app.model.sub_prompts.length; i++) {
-            if (app.model.sub_prompts[i].id == app.model.current_parent_prompt_id) {
-                html += '<li class="active">';
-            } else {
-                html += '<li>';
-            }
-            
-            html += '<a data-toggle="tab" onclick="app.model.load_subresponse(' + app.model.current_position + ', ' + i + ')">' + app.model.sub_prompts[i].label + '</a></li>';
-        }
-
-        html += '</ul>';
-        */
         html += '<p><a class="btn btn-primary response-sub-point" href="/test_me?book_id=' + app.model.current_book.id + '">Test Me on this Section</a>';
 
         html += '<div class="tab-content">';
 
-        for(var i = 0; i < app.model.sub_prompts.length; i++) {
-            html += '<div class="tab-pane';
-            if (app.model.sub_prompts[i].id == app.model.current_parent_prompt_id) {
-                html += ' active';
-            }
-            html += '" id="' + i + '">';
-            html += '<p id="sub-tab1-' + app.model.sub_prompts[i].name + '">';
-            
-            if (app.model.sub_prompts[i].id == app.model.current_parent_prompt_id) {
-                var list = app.model.subresponse_list;
-                var content_html = "";
-                if (app.model.sub_prompts[i].name == "test") {
-                    content_html = '<div class="response-sub-point">';
-                    content_html += app.view.create_test_content(list, 2);
-                    content_html += "</div>"
-                } else {
-                    content_html = app.view.create_sublist_content(list);
-                }
-                html += content_html;
-            }
-            html += '</p></div>';
+        for(var i = 0; i < app.model.subprompt_response_list.length; i++) {
+            var list = app.model.subprompt_response_list;
+            var content_html = app.view.create_sublist_content(list[i].response_list);
+            html += content_html;
         }
+
         html += '</div></div>';
 
         new_element.html(html);
-        app.log("new_element length " + new_element.length);
     },
+
+
+    display_subsubresponse : function() {
+        var old_name = "#sub_point_" + app.model.old_subposition;
+        var new_name = "#sub_point_" + app.model.current_subposition;
+        var old_element = $(old_name);
+        var new_element = $(new_name);
+
+        old_element.html("");
+
+        var html = '';
+        html += '<div class="tabbable">';
+        html += '<p><a class="btn btn-primary response-sub-sub-point" href="/test_me?book_id=' + app.model.current_book.id + '">Test Me on this Section</a>';
+
+        html += '<div class="tab-content">';
+
+        for(var i = 0; i < app.model.subsubprompt_response_list.length; i++) {
+            var list = app.model.subsubprompt_response_list;
+            var prompt = list[i].prompt;
+            var content_html = app.view.create_subsublist_content(prompt, list[i].response_list);
+            html += content_html;
+        }
+
+        html += '</div></div>';
+
+        new_element.html(html);
+        
+    },    
 
     display_book_matches : function() {
         $("#response_piece_text").html(app.model.match_text);
@@ -355,6 +293,7 @@ app.model = {
     get_books_url : "get_books",
     get_book_content_url : "get_book_content",
     get_subresponse_url : "get_subresponse",
+    get_subsubresponse_url : "get_subresponse",
     load_book_matches_url : "load_book_matches",
     load_match_index_url : "load_match_index",
     load_page_url : "load_page",
@@ -368,35 +307,40 @@ app.model = {
         });
     },
 
-    load_book : function (book_id, prompt_id) {
-        $.getJSON(this.get_book_content_url + "?book_id=" + book_id + "&prompt_id=" + prompt_id, function(json) {
+    load_book : function (book_id) {
+        $.getJSON(this.get_book_content_url + "?book_id=" + book_id, function(json) {
             app.log("loaded book for id " + book_id);
             app.log(json);
             app.model.current_book = json.book_info;
-            app.model.prompts = json.prompt_list;
-            app.model.sub_prompts = json.subprompt_list;
-            app.model.response_list = json.response_list;
-            app.model.subresponse_list = json.subresponse_list;
-            app.model.current_prompt_id = prompt_id
+            app.model.prompt_response_list = json.prompt_response_list;
             app.view.book_selected();
         });
     },
 
     // position is how far down the list of content got clicked
-    // parent_index is which subprompt is open by default in the result
-    load_subresponse : function (position, parent_index) {        
-        app.log("load_subresponse position " + position + " parent_index " + parent_index)
-        $.getJSON(this.get_subresponse_url + "?book_id=" + app.model.current_book.id + "&prompt_id=" + app.model.current_prompt_id + "&position=" + position + "&parent_index=" + parent_index, function(json) {
+    load_subresponse : function (response_piece_id, position) {        
+        app.log("load_subresponse response_piece_id " + response_piece_id + " book_id " + app.model.current_book.id);
+        $.getJSON(this.get_subresponse_url + "?response_piece_id=" + response_piece_id, function(json) {
             app.log(json);
-            app.model.sub_prompts = json.prompt_list;
-            app.model.subresponse_list = json.response_list;
+            app.model.subprompt_response_list = json.subprompt_response_list;
             app.model.old_position = app.model.current_position;
             app.model.current_position = position;
-            app.model.current_parent_prompt_id = json.active_prompt_id;
             app.view.display_subresponse();
         });
     },
 
+    // position is how far down the list of content got clicked
+    load_subsubresponse : function (response_piece_id, position) {        
+        app.log("load_subsubresponse response_piece_id " + response_piece_id + " book_id " + app.model.current_book.id);
+        $.getJSON(this.get_subsubresponse_url + "?response_piece_id=" + response_piece_id, function(json) {
+            app.log(json);
+            app.model.subsubprompt_response_list = json.subprompt_response_list;
+            app.model.old_subposition = app.model.current_position;
+            app.model.current_subposition = position;
+            app.view.display_subsubresponse();
+        });
+    },
+    
     load_book_matches : function(response_piece_id) {
         app.log("load_text_search id " + response_piece_id)
         $.getJSON(this.load_book_matches_url + "?id=" + response_piece_id, function(json) {
