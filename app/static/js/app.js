@@ -23,6 +23,25 @@ app.find_in_list = function(list, matchField, matchVal) {
     }
 };
 
+app.shuffle = function(array) {
+    let currentIndex = array.length,  randomIndex;
+  
+    // While there remain elements to shuffle.
+    while (currentIndex > 0) {
+  
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+};
+  
+
 
 app.mobile = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/) != null;
 
@@ -43,33 +62,46 @@ app.view = {
         app.log("books!");
         app.log(app.model.books);
         for(var i = 0; i < app.model.books.length; i++) {
+
+            if (i % 5 == 0) {
+                html += '<div class="row"> <div class="col-12"> <div class="d-md-flex cards-wrapper">';
+            }
             book = app.model.books[i];
-            html += '<li class="span2"> <a href="/book?id=' + book.id + '"> <div class="thumbnail"> <img src="';
-            html += book.image_url;
-            html += '" alt=""> <h5>';
-            html += book.title;
-            html += '</h5> <p></p>'
-            html += book.author;
-            html += '</p> </div> </a> </li>'
+
+            html += '<div class=col-md-2>'
+            html += '<a href="/book?id=' + book.id + '" class="card d-none d-md-block">';
+            html += '<div class="image-wrapper">';
+            html += '<img src="' + book.image_url + '" alt=" width=160 height=233>';
+            html += '</div> <div class="card-body">';
+            html += '<h5 class="card-title">' + book.title + '</h5>';
+            html += '<p class="card-text">'+ book.author + '</p>';
+            html += '</div> </a> </div>'
+
+            if (i % 5 == 4) {
+                html += '</div> </div> </div>';
+            }
+
         }
         app.view.$book_list.html(html);
     },
 
     book_selected : function() {
         var html = "";
-        html += '<div class="row">';
-        html += '<span style="width: 400px; padding: 20px;"> <img src="' + app.model.current_book.image_url + '" width=300px> </span>';
-        html += '<span style="width: 800px;"> <h1>' + app.model.current_book.title + '</h1>'; 
-        html += '<p>By ' + app.model.current_book.author;
-        html += '<p><a class="btn btn-primary" href="' + app.model.current_book.amazon_url + '">Amazon Link</a>';
-        html += '<p><a class="btn btn-primary" href="/test_me?book_id=' + app.model.current_book.id + '">Test Me</a>';
-        html += '</span>';
-        html += "</div>"
 
+        html += '<section class="hero-wrap">';
+        html += '<div class="rounded-5 bg-style hero-inner" style="background-image: url(/template/static/img/faq-hero-bg.jpg);">';
+        html += '<div class="container-xl"> <div class="row align-items-center"> <div class="col-12 col-md-4 ps-0 pe-0 pe-lg-4 hero-thumb">';
+        html += '<figure> <img src="' + app.model.current_book.image_url + '" alt="hero-thumb" class="w-100"> </figure> </div>';
+        html += '<div class="col-12 col-md-8 text-center text-md-start ms-auto me-auto mt-3 mt-md-0 ps-0 pe-0 hero-text">';
+        html += '<h2>' + app.model.current_book.title + '</h2>';
+        html += '<h4 class="d-block mt-3 mt-md-4 pb-3 fw-medium">' + app.model.current_book.author + '</h4>';
+        html += '<div class="d-block d-md-inline-flex btn-group mt-3 mt-md-5">';
+        html += '<a href="' + app.model.current_book.amazon_url + '" class="me-3 rounded border-0 btn btn-primary btn-ex-md">Amazon Link</a>';
+        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '" class="d-block mt-3 mt-md-0 rounded border-0 btn btn-secondary btn-sm">Test Me</a>'
+        html += '</div> </div> </div> </div> </div> </section>'
 
         html += '<div>';
         for(var i = 0; i < app.model.prompt_response_list.length; i++) {
-            
             var list = app.model.prompt_response_list;
             var content_html = app.view.create_list_content(list[i].response_list);
             html += content_html;
@@ -79,73 +111,82 @@ app.view = {
         app.view.$book_content.html(html);
     },
 
-    test_click : function(num, answer, level) {
-        var list = [];
-        if (level == 1) {
-            list = app.model.response_list;
-        } else if (level == 2) {
-            list = app.model.subresponse_list;
-        }
-        var item =  JSON5.parse(list[num].text);
-        var answer_map = {"A)" : 0, "B)" : 1, "C)" : 2, "D)" : 3};
-        var click_index = answer_map[answer]
-        var correct_index = answer_map[item['answer']]
-        var answer_element = $("#test_answer_" + num);
-        var click_btn_element = $("#test_btn_" + click_index + "_" + num);
-        var correct_btn_element = $("#test_btn_" + correct_index + "_" + num);
-
-        // remove all red button
-        for (var i = 0; i < 4; i++) {
-            var btn = $("#test_btn_" + i + "_" + num);
-            btn.removeClass("btn-danger");
-        }
-
-        var answer_html = ""
-        if (click_index == correct_index) {
-            answer_html += "<p>Correct!";
-            click_btn_element.addClass("btn-success")
-        } else {
-            answer_html += "<p>Wrong!";
-            click_btn_element.addClass("btn-danger")
-            correct_btn_element.addClass("btn-success")
-        }
-
-        if (level == 1) {
-            answer_html += '<div class="response-point" onclick="app.model.load_subresponse(' + num + ')">';
-            answer_html += item['explanation'];
-            answer_html += '</div>'
-            answer_html += '<div id="point_' + num + '"></div>';
-        } else {
-            answer_html += "<p>" + item['explanation'];
-        }
-        answer_element.html(answer_html);
-    },
-
-    create_test_content : function(list, level) {
+  
+    display_test : function(choice) {
         var html = "";
 
-        //debugger;
+        html += '<section class="hero-wrap">  <div class="rounded-5 bg-style hero-inner"> <div class="container-xl">';
+        html += '<div class="row align-items-center"> <div class="col-12 col-md-2 ps-4 hero-thumb"> <figure class="rounded-4">';
+        html += '<img src="' + app.model.current_book.image_url + '" width=184px height=240px alt="hero-thumb" class="w-100">';
+        html += '</figure> </div> <div class="col-12 col-md-10 hero-text">';
+        html += '<a href=/book?id=' + app.model.current_book.id + ' class="d-flex ms-0 ms-md-4 align-items-center back-link">';
+        html += '<img src="/template/static/svgs/back-arrow.svg" alt="">';
+        html += '<span class="ps-4 fw-semibold">Back to ' + app.model.current_book.title + '</span>';
+        html += '</a> </div> </div> </div> </section>';
 
-        for(var i = 0; i < list.length; i++) {
-            var item =  JSON5.parse(list[i].text);
-            html += "<h3>" + (i+1) + ": " + item.question + "</h3>";
-            html += "<button id='test_btn_0_" + i + "' class='btn' style='padding: 10px; margin: 10px;' onclick=\"app.view.test_click(" + i + ", 'A)', " + level + ")\">" + item["A)"] + "</button>";
-            html += "<button id='test_btn_1_" + i + "' class='btn' style='padding: 10px; margin: 10px;' onclick=\"app.view.test_click(" + i + ", 'B)', " + level + ")\">" + item["B)"] + "</button>";
-            html += "<button id='test_btn_2_" + i + "' class='btn' style='padding: 10px; margin: 10px;' onclick=\"app.view.test_click(" + i + ", 'C)', " + level + ")\">" + item["C)"] + "</button>";
-            html += "<button id='test_btn_3_" + i + "' class='btn' style='padding: 10px; margin: 10px;' onclick=\"app.view.test_click(" + i + ", 'D)', " + level + ")\">" + item["D)"] + "</button>";
-            html += "<div id='test_answer_" + i + "'></div>"
+        $("#back_breadcrumb").html(html);
+
+        if (app.model.question_number > 0) {
+            var last_question = JSON5.parse(app.model.question_list[app.model.question_number-1].text);
+            var answer = last_question.answer;
+            var right_wrong = "<span style='color:green'>Correct!</span>";
+            if (answer != choice) {
+                right_wrong = "<span style='color:red'>Wrong!</span>"
+            }
+            $("#right_wrong").html(right_wrong);
+
+            html = '<a href="/text_search?id=' + app.model.question_list[app.model.question_number-1].id + '">' + last_question.explanation + '</a>';            
+            $("#explanation").html(html);
         }
-        return html;
+
+        var question = JSON5.parse(app.model.question_list[app.model.question_number].text);
+        $("#question_text").html(question.question);
+
+        html = '<form action="#" method="post">';
+
+        html += '<div class="ps-0 form-check"><input class="form-check-input" type="checkbox" value="" id="Checked-1">';
+        html += '<label class="w-100 form-check-label" for="Checked-1" onclick="app.view.display_test(\'A)\')">' + question["A)"] + '</label>';
+        html += '<span class="d-flex align-items-center justify-content-center position-absolute top-50 translate-middle-y bg-white rounded-circle check-mark">A</span></div>'
+
+        html += '<div class="ps-0 form-check"><input class="form-check-input" type="checkbox" value="" id="Checked-1">';
+        html += '<label class="w-100 form-check-label" for="Checked-1" onclick="app.view.display_test(\'B)\')">' + question["B)"] + '</label>';
+        html += '<span class="d-flex align-items-center justify-content-center position-absolute top-50 translate-middle-y bg-white rounded-circle check-mark">A</span></div>'
+
+        html += '<div class="ps-0 form-check"><input class="form-check-input" type="checkbox" value="" id="Checked-1">';
+        html += '<label class="w-100 form-check-label" for="Checked-1" onclick="app.view.display_test(\'C)\')">' + question["C)"] + '</label>';
+        html += '<span class="d-flex align-items-center justify-content-center position-absolute top-50 translate-middle-y bg-white rounded-circle check-mark">A</span></div>'
+
+        html += '<div class="ps-0 form-check"><input class="form-check-input" type="checkbox" value="" id="Checked-1">';
+        html += '<label class="w-100 form-check-label" for="Checked-1" onclick="app.view.display_test(\'D)\')">' + question["D)"] + '</label>';
+        html += '<span class="d-flex align-items-center justify-content-center position-absolute top-50 translate-middle-y bg-white rounded-circle check-mark">A</span></div>'
+
+        html += "</form>";
+
+        $("#answer_text").html(html);
+
+        if (app.model.question_number < app.model.question_list.length - 1) {
+            app.model.question_number++;
+        } else {
+            app.model.question_number = 0;
+        }
     },
 
     create_list_content : function(list) {
         var html = '';
+
+        html += '<section class="faq-content"> <div class="container-xl"> <div class="row"><div class="p-0 accordion" id="accordionExample">';
+
         for(var i = 0; i < list.length; i++) {
-            html += '<div class="response-point" onclick="app.model.load_subresponse(\'' + list[i]['id'] +  '\', ' + i + ')">';
+            html += '<div class="accordion-item mt-4 border-0"> <h2 class="accordion-header">';
+            html += '<button class="accordion-button collapsed" type="button" onclick="app.model.load_subresponse(\'' + list[i]['id'] +  '\', ' + i + ')" ';
+            html += 'data-bs-toggle="collapse" data-bs-target="#collapse_' + i + '" aria-expanded="false" aria-controls="collapse_' + i + '">'
             html += list[i].text;
-            html += '</div>'
-            html += '<div id="point_' + i + '"></div>';
+            html += '</button></h2>'
+            html += '<div id="collapse_' + i + '" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample"></div></div>'
         }
+
+        html += '</div></div></div></section>'
+
         return html;
     },
 
@@ -153,10 +194,10 @@ app.view = {
         var html = '';
 
         for(var i = 0; i < list.length; i++) {
-            html += '<div class="response-sub-point" onclick="app.model.load_subsubresponse(\'' + list[i]['id'] +  '\', ' + i + ')">';
+            html += '<div class="accordion-item mt-4 border-0"> <h2 class="accordion-header">';
+            html += '<button class="accordion-button collapsed" onclick="app.model.load_subsubresponse(\'' + list[i]['id'] +  '\', ' + i + ')" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">';
             html += list[i].text;
-            html += '</div>'
-            html += '<div id="sub_point_' + i + '"></div>';
+            html += '</button> </h2> <div id="flush-collapse_' + i + '" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample"></div></div>'
         }
         return html;
     },
@@ -164,28 +205,28 @@ app.view = {
     create_subsublist_content : function(prompt, list) {
         var html = '';
 
-        html += '<div class="response-sub-sub-point">';
+        html += '<div class="accordion-row">'
         html += '<h3>' + prompt.label + "</h3>";
         html += '</div>'
-        html += '<div id="sub_point_' + i + '"></div>';
 
         for(var i = 0; i < list.length; i++) {
-            html += '<div class="response-sub-sub-point">';
+            html += '<div class="accordion-row">';
             if (prompt.name == "discussion") {
                 html += list[i].text;
             } else {
                 html += '<a href="/text_search?id=' + list[i].id + '">' + list[i].text + '</a>';            
             }
             html += '</div>'
-            html += '<div id="sub_point_' + i + '"></div>';
         }
         return html;
     },
 
+
+    
     display_subresponse : function() {
         // remove old 
-        var old_name = "#point_" + app.model.old_position;
-        var new_name = "#point_" + app.model.current_position;
+        var old_name = "#collapse_" + app.model.old_position;
+        var new_name = "#collapse_" + app.model.current_position;
         var old_element = $(old_name);
         var new_element = $(new_name);
 
@@ -194,34 +235,34 @@ app.view = {
         old_element.html("");
 
         var html = '';
-        html += '<div class="tabbable">';
-        html += '<p><a class="btn btn-primary response-sub-point" href="/test_me?book_id=' + app.model.current_book.id + '">Test Me on this Section</a>';
-
-        html += '<div class="tab-content">';
-
+        html += '<div class="accordion-body"> <div class="mt-1 accordion-inner">';
+        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>';
+        html += '<div class="accordion accordion-flush" id="accordionFlushExample">'
+    
         for(var i = 0; i < app.model.subprompt_response_list.length; i++) {
             var list = app.model.subprompt_response_list;
             var content_html = app.view.create_sublist_content(list[i].response_list);
             html += content_html;
         }
 
-        html += '</div></div>';
+        html += '</div></div></div>';
 
         new_element.html(html);
     },
 
 
     display_subsubresponse : function() {
-        var old_name = "#sub_point_" + app.model.old_subposition;
-        var new_name = "#sub_point_" + app.model.current_subposition;
+        var old_name = "#flush-collapse_" + app.model.old_subposition;
+        var new_name = "#flush-collapse_" + app.model.current_subposition;
         var old_element = $(old_name);
         var new_element = $(new_name);
 
         old_element.html("");
 
         var html = '';
-        html += '<div class="tabbable">';
-        html += '<p><a class="btn btn-primary response-sub-sub-point" href="/test_me?book_id=' + app.model.current_book.id + '">Test Me on this Section</a>';
+        html += '<div class="accordion-body"> <div class="accordion-inner">';
+        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>'
+        html += '<div class="accordion-wrap">'
 
         html += '<div class="tab-content">';
 
@@ -232,10 +273,10 @@ app.view = {
             html += content_html;
         }
 
-        html += '</div></div>';
+        html += '</div></div></div>';
 
         new_element.html(html);
-        
+        new_element.removeClass("collapse");
     },    
 
     display_book_matches : function() {
@@ -244,8 +285,16 @@ app.view = {
         $("#book_page_text").html('Page ' + app.model.cur_page + ' out of ' + app.model.max_page);
 
         // create back breadcrumb
-        var html = '<img src=' + app.model.image_url + ' width=100px> <a href=/book?id=' + app.model.content_info.book_id + '>';
-        html += '<< Back to ' + app.model.title + '</a>'
+        var html = "";
+
+        html += '<div class="col-12 col-md-2 ps-4 hero-thumb"> <figure class="rounded-4">';
+        html += '<img src="' + app.model.image_url + '" width=184px height=240px alt="hero-thumb" class="w-100">';
+        html += '</figure> </div> <div class="col-12 col-md-10 hero-text">';
+        html += '<a href=/book?id=' + app.model.content_info.book_id + ' class="d-flex ms-0 ms-md-4 align-items-center back-link">';
+        html += '<img src="/template/static/svgs/back-arrow.svg" alt="">';
+        html += '<span class="ps-4 fw-semibold">Back to ' + app.model.title + '</span>';
+        html += '</a> </div>'
+
         $("#back_breadcrumb").html(html);
 
         // content to display
@@ -297,6 +346,7 @@ app.model = {
     load_book_matches_url : "load_book_matches",
     load_match_index_url : "load_match_index",
     load_page_url : "load_page",
+    get_test_questions_url : "get_test_questions",
 
     get_books : function() {
         app.log(this.get_books_url);            
@@ -382,6 +432,17 @@ app.model = {
                 app.view.display_book_matches();
             })
         }
+    },
+
+    load_book_test_questions : function(book_id) {
+        app.log("load_book_test_questions book id " + book_id)
+        $.getJSON(this.get_test_questions_url + "?book_id=" + book_id, function(json) {
+            app.log(json);
+            app.model.question_list = app.shuffle(json.question_list);
+            app.model.current_book = json.book_info;
+            app.model.question_number = 0;
+            app.view.display_test(null);
+        })
     }
 
 

@@ -194,3 +194,26 @@ async def load_page(book_id, page):
     response['text_list'] = text_list
 
     return response
+
+@app.get("/get_test_questions")
+async def get_test_questions(book_id):
+    response = {}
+
+    query = "SELECT * FROM book WHERE id = %s"
+    prompt_response = list(db.query(query, [book_id]))
+    response['book_info'] = prompt_response[0]
+
+    # todo: make this work for other prompt_sets
+    query = "SELECT id FROM prompt_response WHERE book_id = %s AND prompt_id = 25"
+    prompt_list = list(db.query(query, [book_id]))
+    questions = []
+    for prompt in prompt_list:
+        query = "SELECT text, id FROM response_piece WHERE prompt_response_id = %s"
+        prompt_questions = list(db.query(query, [prompt['id']]))
+        str_bigint(prompt_questions, ["id"])
+        for question in prompt_questions:
+            questions.append(question)
+
+    response['question_list'] = questions
+
+    return response

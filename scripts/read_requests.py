@@ -60,7 +60,8 @@ def save_prompt_response(book_id, prompt_id, hash, prompt_text, response_list, l
     args['id'] = id
     args['book_id'] = book_id
     args['prompt_id'] = prompt_id
-    args['response_piece_id'] = response_piece_id
+    if response_piece_id > 0:
+        args['response_piece_id'] = response_piece_id
     args['created_on'] = int(time.time())
     args['prompt_hash'] = hash
     args['prompt_text'] = prompt_text

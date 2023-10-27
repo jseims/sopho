@@ -2,40 +2,65 @@
 
 
 {% block content %}
-<div class="row" style="padding: 20px;">
-  <span class="span11">
-    <div id="back_breadcrumb"></div>
-  </span>
-</div>
+<section class="bg-black hero-wrap">
+  <div class="rounded-5 bg-style hero-inner">
+      <div class="container-xl">
+          <div class="row align-items-center" id="back_breadcrumb">
+          </div>
+      </div>
+  </div>
+</section>
 
 
-<div class="row"> 
-  <span style="width: 1000px;">
-    <p>Showing sections of book similar to:</p>
-    <p id="response_piece_text"></p>
-  </span>
-  <span style="width: 300px;">
-    <button id="back_search_btn" class="btn" onclick="app.view.click_back_response_piece()"><< Back</button>
-    <button id="next_search_btn" class="btn" onclick="app.view.click_next_response_piece()">Next >></button>
-    <p id="response_piece_search_position"></p>
-  </span>
-</div>
-
-<div class="row">
-  <span class="span11" style="border:1px solid black;">
-    <p id="book_text"></p>
-  </span>
-</div>
-
-<div class="row">
-  <span class="span10">
-    <button id="back_page_btn" class="btn" onclick="app.view.click_back_page()"><< Previous Page</button>
-    <span id="book_page_text"></span>
-    <button id="next_page_btn" class="btn" onclick="app.view.click_next_page()">Next Page >></button>
-  </span>
-</div>
-
-
+<section class="reader-content">
+  <div class="container-xl">
+      <div class="row d-block d-lg-flex align-items-center reader-content-head">
+          <div class="col-12 col-lg-9 p-0 reader-head-text">
+              <h5 class="fs-4 lh-2">Showing sections of book similar to:</h5>
+              <p id="response_piece_text"></p>
+          </div>
+          <div class="col-12 col-lg-3 text-start pe-0 text-lg-end reader-head-link">
+              <div class="btn-group">
+                  <a id="back_search_btn" class="me-2 rounded-2 border-0 btn btn-primary btn-ex-sm">
+                      <svg class="me-1" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M11.726 12L12.666 11.06L9.61268 8L12.666 4.94L11.726 4L7.72602 8L11.726 12Z" fill="currentColor"/>
+                          <path d="M7.33332 12L8.27332 11.06L5.21998 8L8.27332 4.94L7.33332 4L3.33332 8L7.33332 12Z" fill="currentColor"/>
+                      </svg>
+                  Back</a>
+                  <a id="next_search_btn" class="btn rounded-2 border-0 btn-primary btn-ex-sm">Next
+                      <svg class="ms-1" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M4.27398 4L3.33398 4.94L6.38732 8L3.33398 11.06L4.27398 12L8.27398 8L4.27398 4Z" fill="currentColor"/>
+                          <path d="M8.66656 4L7.72656 4.94L10.7799 8L7.72656 11.06L8.66656 12L12.6666 8L8.66656 4Z" fill="currentColor"/>
+                      </svg>
+                  </a>
+              </div>
+              <p id="response_piece_search_position"></p>
+            </div>
+      </div>
+      <div class="row">
+          <div class="p-0 col-12">
+              <div class="rounded-3  reader-content-body">
+                <p id="book_text"></p>
+              </div>
+              <div class="mt-4 btn-group">
+                  <a id="back_page_btn" class="me-2 rounded-2 border-0 btn btn-primary btn-ex-sm">
+                      <svg class="me-1" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M11.726 12L12.666 11.06L9.61268 8L12.666 4.94L11.726 4L7.72602 8L11.726 12Z" fill="currentColor"/>
+                          <path d="M7.33332 12L8.27332 11.06L5.21998 8L8.27332 4.94L7.33332 4L3.33332 8L7.33332 12Z" fill="currentColor"/>
+                      </svg>
+                      Previous Page</a>
+                      <p id="book_page_text"></p>
+                  <a id="next_page_btn" class="btn rounded-2 border-0 btn-primary btn-ex-sm">Next Page
+                      <svg class="ms-1" width="20" height="20" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M4.27398 4L3.33398 4.94L6.38732 8L3.33398 11.06L4.27398 12L8.27398 8L4.27398 4Z" fill="currentColor"/>
+                          <path d="M8.66656 4L7.72656 4.94L10.7799 8L7.72656 11.06L8.66656 12L12.6666 8L8.66656 4Z" fill="currentColor"/>
+                      </svg>
+                  </a>
+              </div>
+          </div>
+      </div> 
+  </div>
+</section>
 {% endblock %}
 
 {% block javascript %}

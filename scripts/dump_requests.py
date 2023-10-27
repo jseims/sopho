@@ -115,7 +115,7 @@ def make_top_requests_list():
 
 
 def make_deep_requests_list(level):
-    sql = """select r.id, r.book_id, r.prompt_id, p.name, b.title, b.author from prompt_response r, prompt p, book b where r.prompt_id = p.id and r.book_id = b.id and p.level = %s AND p.prompt_set = %s"""
+    sql = """select r.id, r.book_id, r.prompt_id, p.name, b.title, b.author from prompt_response r, prompt p, book b where r.prompt_id = p.id and r.book_id = b.id and p.level = %s AND p.prompt_set = %s AND b.id != 3"""
     args = [level - 1, DEFAULT_PROMPT_SET]
     prompts = list(db.query(sql, args))
     request_list = []
