@@ -878,10 +878,12 @@ body{
     color: #BDBDBD;
     text-decoration: none;
 }
-#explanation a:hover{
+#explanation a:hover,
+#explanation a:active{
     text-decoration:underline;            
 }
 
-.accordion-row a:hover{
+.accordion-row a:hover,
+.accordion-row a:active{
     text-decoration:underline;            
 }
