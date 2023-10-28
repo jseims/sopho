@@ -56,6 +56,7 @@ app.view = {
         app.view.$book_content = $("#book_content");
     },
 
+
     display_books : function() {
         var html = "";
 
@@ -67,7 +68,8 @@ app.view = {
 
             html += '<a href="/book?id=' + book.id + '" class="card rounded-3">'
             html += '<div class="image-wrapper">';
-            html += '<img src="' + book.image_url + '" alt=" width=160 height=233>';
+
+            html += '<img src="' + book.image_url + '" alt="book thumnail" width=160 height=233>';
             html += '</div> <div class="card-body">';
             html += '<h5 class="card-title">' + book.title + '</h5>';
             html += '<p class="card-text">'+ book.author + '</p>';

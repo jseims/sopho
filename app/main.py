@@ -30,20 +30,29 @@ async def index(request: Request):
 
 @app.get("/book")
 async def book_view(request: Request, id):
+    query = "SELECT * FROM book WHERE id = %s"
+    prompt_response = list(db.query(query, [id]))
+    book = prompt_response[0]
     return templates.TemplateResponse(
-        "book.html", context={"request": request, "id": id}
+        "book.html", context={"request": request, "id": id, "book_title" : book['title']}
     )
 
 @app.get("/text_search")
 async def book_view(request: Request, id):
+    query = "select b.title from book b, response_piece rp, prompt_response pr where rp.id = %s and rp.prompt_response_id = pr.id and b.id = pr.book_id;"
+    prompt_response = list(db.query(query, [id]))
+    book = prompt_response[0]
     return templates.TemplateResponse(
-        "text_search.html", context={"request": request, "id": id}
+        "text_search.html", context={"request": request, "id": id, "book_title" : book['title']}
     )
 
 @app.get("/test_me")
 async def test_me(request: Request, book_id, response_piece_id):
+    query = "SELECT * FROM book WHERE id = %s"
+    prompt_response = list(db.query(query, [book_id]))
+    book = prompt_response[0]
     return templates.TemplateResponse(
-        "test_me.html", context={"request" : request, "book_id" : book_id, "response_piece_id" : response_piece_id}
+        "test_me.html", context={"request" : request, "book_id" : book_id, "response_piece_id" : response_piece_id, "book_title" : book['title']}
     )
 
 
