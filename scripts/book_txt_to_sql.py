@@ -42,7 +42,12 @@ def save_to_db(text, book_id, position):
     args['text'] = text
 
     sql = insertFromDict("book_content", args)
-    db.query(sql, args)
+    try:
+      db.query(sql, args)
+    except Exception as e:      
+        print("Error in save_to_db")
+        print(text)
+        print(e)
    
 
 

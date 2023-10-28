@@ -298,17 +298,18 @@ body{
     background-color: transparent;
 }
 .blog{
-    padding: 100px 0;
+    padding: 100px 12px;
 }
-.carousel-inner{
-    padding: 0 12px;
+.card-wrap{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 40px;
 }
 .card{
-    width:calc(100% / 1);
-    margin: 0 20px;
     padding:60px 20px 50px;
-    background: linear-gradient(0deg, #262626, #262626),
-        linear-gradient(0deg, #FFFFFF, #FFFFFF);
+    margin: 0;
+    background: #262626;
+    border: 1px solid #262626;
     transition: all 0.3s ease-in;
 }
 .card:hover{
@@ -341,23 +342,10 @@ body{
     max-width: 100%;
     height: 100%;
 }
-.carousel-control-prev,
-.carousel-control-next{
-    width:36px;
-    height: 36px;
-    padding: 8px;
-    border-radius: 100px;
-    background: #303030;
-    border: 2px solid #303030;
+/* Summary page style */
+.shop .hero-thumb figure{
+    max-width: 420px;
 }
-.carousel-control-next{
-    right: -32px;
-}
-.carousel-control-prev{
-    left: -32px;
-}
-
-/* shop page style */
 .faq-content{
     padding:16px 12px 40px;
     background-color: #0e0e0e;
@@ -387,7 +375,7 @@ body{
     content: "";
     width: 40px;
     height: 100%;
-    background-image: url(/template/static/svgs/minus.svg);
+    background-image: url(../svgs/minus.svg);
     background-repeat: no-repeat;
     background-size: 16px 16px;
     background-position: center center;
@@ -399,7 +387,7 @@ body{
     transform: rotate(0deg);
 }
 .faq-content .accordion-button.collapsed:after{
-    background-image: url(/template/static/svgs/plus.svg);
+    background-image: url(../svgs/plus.svg);
     transform: rotate(0deg);
 }
 .accordion-body{
@@ -407,13 +395,19 @@ body{
     padding-left: 0;
     padding-right: 0;
 }
-
 .accordion-inner .accordion,
 .accordion-wrap{
     padding-left: 30px;
 }
+.accordion-inner-head{
+    padding-left: 50px;
+}
+
+.accordion-inner h3{
+    color:#BDBDBD;
+}
 .accordion-wrap{
-    margin-top: 40px;
+    margin-top: 20px;
     padding-left: 50px;
 }
 .accordion.accordion-flush{
@@ -424,7 +418,6 @@ body{
 }
 .accordion-row a{
     background-color:#000000;
-
 }
 .accordion-row p,
 .accordion-row a{
@@ -432,8 +425,14 @@ body{
     padding-left: 20px;
     margin-bottom: 16px;
 }
-
+.accordion-row + h3{
+    margin-top: 20px;
+}
 /* Reader page */
+
+.reader .hero-thumb figure{
+    max-width: 180px;
+}
 .reader .hero-text{
     max-width: 100%;
 }
@@ -449,7 +448,8 @@ body{
     margin-top:24px;
 }
 .reader-content .btn-ex-sm{
-    width: 72px;
+    width: auto;
+    min-width:72px;
     height: 32px;
     font-size: 13px;
     line-height: 18px;
@@ -460,7 +460,6 @@ body{
     border:1px solid #EBEBEB;
     margin-top: 34px;
 }
-
 .reader-content-body h6{
     font-size:18px;
     line-height: 26px;
@@ -495,6 +494,9 @@ body{
 }
 
 /* Test me page */
+.test .hero-thumb figure{
+    max-width: 180px;
+}
 .test .hero-inner, 
 .test .hero-wrap,
 .test-content,
@@ -622,7 +624,7 @@ body{
     .navShown .navbar{
         position: inherit;
     }
-    .navShown .collapse:not(.show){
+    .navShown .header-wrap .collapse:not(.show){
         display: block;
         position: absolute;
         top: 50%;
@@ -633,7 +635,6 @@ body{
     .navbar-brand{
         width:110px;
     }
-   
     .hero-wrap{
         padding:0 12px;
     }
@@ -641,7 +642,6 @@ body{
     .hp .hero-inner{
         padding:20px 0;
     }
-    
     .hero-text{
         max-width: 100%;
     }
@@ -661,23 +661,35 @@ body{
     .blog{
         padding: 0 0 20px 0;
     }
+    .card-wrap{
+        display: block;
+    }
     .card{
-        width: 100%;
-        margin:20px 0 0 0 ;
+        margin-top: 15px;
         text-align: center;
     }
     .accordion-flush .accordion-item {
         margin-top: 20px!important;
     }
- 
     .accordion-row p, 
     .accordion-row a {
         padding-left: 10px;
         padding-right: 10px;
     }
+   
+    .accordion-inner-head h3, .accordion-row + h3{
+       font-size: 19px;
+        line-height: 26px;
+    }
+    .accordion-inner-head a.btn-xl{
+        width: auto;
+        font-size: 15px;
+    }
+    .accordion.accordion-flush{
+        padding-left: 0;
+    }
     .accordion-wrap {
         margin-top: 20px;
-        padding-left: 58px;
     }
     .back-link span{
         font-size: 22px;
@@ -711,18 +723,23 @@ body{
         padding: 10px;
         margin-top: 0;
     }
-    .carousel-control-prev {
-        left: 0;
-    }
-    .carousel-control-next {
-        right: 0;
-    }
 }
 
 
 @media only screen and (min-width: 280px) and (max-width: 460px) {
     .header-search{
         width:310px;
+    }
+    .card-wrap{
+        display: block;
+    }
+    .card{
+        margin-top: 15px;
+        padding: 15px;
+    }
+    .card-title{
+        font-size: 18px;
+        line-height: 20px;
     }
 }
 @media only screen and (min-width: 280px) and (max-width: 414px) {
@@ -747,10 +764,23 @@ body{
 }
 
 @media only screen and (min-width: 481px) and (max-width: 767px) {
-   .navShown .collapse:not(.show) {
-       
-        top: 66%;
-        padding-bottom: 30px;
+   .navShown .header-wrap .collapse:not(.show) {       
+       top: 66%;
+       padding-bottom: 30px;
+       background: #0E0E0E;
+    }
+    .card-wrap{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 15px;
+    }
+    .card{
+        margin-top: 0;
+        padding: 20px;
+    }
+    .card-title{
+        font-size: 18px;
+        line-height: 20px;
     }
 }
 
@@ -770,7 +800,7 @@ body{
     .navShown .navbar{
         position: inherit;
     }
-    .navShown .collapse:not(.show){
+    .navShown .header-wrap .collapse:not(.show){
         display: block;
         position: absolute;
         top: 50%;
@@ -789,22 +819,17 @@ body{
         font-size: 40px;
         line-height: 50px;
     }
+    .card-wrap{
+       grid-template-columns: repeat(2, 1fr);
+        grid-gap: 15px;
+    }
     .card{
-        margin: 0 5px;
-        padding: 10px;
+        padding: 20px;
+        text-align: center;
     }
     .card-title{
         font-size: 18px;
         line-height: 24px;
-    }
-    .carousel-inner{
-        padding: 0 30px;
-    }
-    .carousel-control-next{
-        right: -2px;
-    }
-    .carousel-control-prev{
-        left: -2px;
     }
     .back-link span{
         font-size: 18px;
@@ -828,26 +853,14 @@ body{
         font-size: 26px;
         line-height: 36px;
     }
+    .card-wrap{
+        grid-gap: 15px;
+    }
     .card{
-        margin: 0 10px;
+        padding: 25px;
     }
-    .carousel-inner{
-        padding: 0 30px;
+    .card-title{
+        font-size: 20px;
+        line-height: 26px;
     }
-    .carousel-control-next{
-        right: -2px;
-    }
-    .carousel-control-prev{
-        left: -2px;
-    }
-}
-
-.thumbnail-item {
-    position: relative;
-    display: none;
-    float: left;
-    width: 100%;
-    margin-right: -100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
 }

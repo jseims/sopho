@@ -459,7 +459,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--requests_filepath", default="requests.json")
     parser.add_argument("--save_filepath", default="results.json")
-    # ./api_request_parallel_processor.py --request_url https://api.openai.com/v1/embeddings for embeddings
+    # For embeddings, use:
+    # ./api_request_parallel_processor.py --request_url https://api.openai.com/v1/embeddings --max_requests_per_minute 1500 --max_tokens_per_minute 100000
     parser.add_argument("--request_url", default="https://api.openai.com/v1/chat/completions")
     parser.add_argument("--api_key", default=OPENAI_API_KEY)
     parser.add_argument("--max_requests_per_minute", type=int, default=100)

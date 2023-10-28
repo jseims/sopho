@@ -63,23 +63,16 @@ app.view = {
         app.log(app.model.books);
         for(var i = 0; i < app.model.books.length; i++) {
 
-            if (i % 5 == 0) {
-                html += '<div class="row"> <div class="col-12"> <div class="d-md-flex cards-wrapper">';
-            }
             book = app.model.books[i];
 
-            html += '<div class=col-md-2>'
-            html += '<a href="/book?id=' + book.id + '" class="card d-none d-md-block">';
+            html += '<a href="/book?id=' + book.id + '" class="card rounded-3">'
             html += '<div class="image-wrapper">';
             html += '<img src="' + book.image_url + '" alt=" width=160 height=233>';
             html += '</div> <div class="card-body">';
             html += '<h5 class="card-title">' + book.title + '</h5>';
             html += '<p class="card-text">'+ book.author + '</p>';
-            html += '</div> </a> </div>'
+            html += '</div> </a>'
 
-            if (i % 5 == 4) {
-                html += '</div> </div> </div>';
-            }
 
         }
         app.view.$book_list.html(html);
@@ -132,11 +125,37 @@ app.view = {
             var right_wrong = "<span style='color:green'>Correct!</span>";
             if (answer != choice) {
                 right_wrong = "<span style='color:red'>Wrong!</span>"
+                app.model.test_questions_wrong++;
+            } else {
+                app.model.test_questions_right++;
             }
             $("#right_wrong").html(right_wrong);
 
+            // set score
+            var score = 5 * app.model.test_questions_right - 10 * app.model.test_questions_wrong;
+            score = Math.max(score, 0);
+            score = Math.min(score, 100)
+            if (score == 0) {
+                app.model.test_questions_wrong = 0;
+                app.model.test_questions_right = 0;
+            }
+            if (score == 100) {
+                app.model.test_questions_wrong = 0;
+                app.model.test_questions_right = 20;
+            }
+            if (score < 20) {
+                $("#award_img").hide(html);
+            } else {
+                $("#award_img").show(html);
+            }
+
+            html = "<span>" + score + "</span>/100";
+            $("#test_score").html(html);
+
             html = '<a href="/text_search?id=' + app.model.question_list[app.model.question_number-1].id + '">' + last_question.explanation + '</a>';            
             $("#explanation").html(html);
+        } else {
+            $("#award_img").hide(html);
         }
 
         var question = JSON5.parse(app.model.question_list[app.model.question_number].text);
@@ -150,15 +169,15 @@ app.view = {
 
         html += '<div class="ps-0 form-check"><input class="form-check-input" type="checkbox" value="" id="Checked-1">';
         html += '<label class="w-100 form-check-label" for="Checked-1" onclick="app.view.display_test(\'B)\')">' + question["B)"] + '</label>';
-        html += '<span class="d-flex align-items-center justify-content-center position-absolute top-50 translate-middle-y bg-white rounded-circle check-mark">A</span></div>'
+        html += '<span class="d-flex align-items-center justify-content-center position-absolute top-50 translate-middle-y bg-white rounded-circle check-mark">B</span></div>'
 
         html += '<div class="ps-0 form-check"><input class="form-check-input" type="checkbox" value="" id="Checked-1">';
         html += '<label class="w-100 form-check-label" for="Checked-1" onclick="app.view.display_test(\'C)\')">' + question["C)"] + '</label>';
-        html += '<span class="d-flex align-items-center justify-content-center position-absolute top-50 translate-middle-y bg-white rounded-circle check-mark">A</span></div>'
+        html += '<span class="d-flex align-items-center justify-content-center position-absolute top-50 translate-middle-y bg-white rounded-circle check-mark">C</span></div>'
 
         html += '<div class="ps-0 form-check"><input class="form-check-input" type="checkbox" value="" id="Checked-1">';
         html += '<label class="w-100 form-check-label" for="Checked-1" onclick="app.view.display_test(\'D)\')">' + question["D)"] + '</label>';
-        html += '<span class="d-flex align-items-center justify-content-center position-absolute top-50 translate-middle-y bg-white rounded-circle check-mark">A</span></div>'
+        html += '<span class="d-flex align-items-center justify-content-center position-absolute top-50 translate-middle-y bg-white rounded-circle check-mark">D</span></div>'
 
         html += "</form>";
 
@@ -337,6 +356,8 @@ app.model = {
     response_list : [],
     sub_prompts : [],
     subresponse_list : [],
+    test_questions_right : 0,
+    test_questions_wrong: 0,
 
     // load books
     get_books_url : "get_books",

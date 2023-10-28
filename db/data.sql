@@ -31,10 +31,10 @@ INSERT INTO `book` VALUES
     "https://m.media-amazon.com/images/I/81WT49PEQsL._SY466_.jpg",
     "Reality Is Not What It Seems: The Journey to Quantum Gravity",
     "Carlo Rovelli", "non-fiction"),
-  (8, 'https://www.amazon.com/gp/product/0989529762', 
-    "https://m.media-amazon.com/images/I/91slGGV-keL._SY466_.jpg",
-    "Thermoinfocomplexity: A New Theory: Origin of Life and Evolution of Complex Adaptive Systems",
-    "Behzad Mohit", "non-fiction"),
+  (8, 'https://www.amazon.com/Pre-Suasion-Revolutionary-Way-Influence-Persuade-ebook/dp/B01C36E2YS', 
+    "https://m.media-amazon.com/images/I/71gC-ZXcKfL._SY466_.jpg",
+    "Pre-Suasion: A Revolutionary Way to Influence and Persuade",
+    "Robert B. Cialdini", "non-fiction"),
   (9, 'https://www.amazon.com/Beginning-Infinity-Explanations-Transform-World/dp/0143121359', 
     "https://m.media-amazon.com/images/I/81kgWVO7VkL._SY466_.jpg",
     "The Beginning of Infinity: Explanations That Transform the World",
@@ -55,10 +55,10 @@ INSERT INTO `book` VALUES
     "https://m.media-amazon.com/images/I/71BByzm98gL._SY466_.jpg",
     "Guns, Germs, and Steel: The Fates of Human Societies",
     "Jared Diamond Ph.D.", "non-fiction"),
-  (14, 'https://www.amazon.com/Elon-Musk-Walter-Isaacson/dp/1982181281', 
-    "https://m.media-amazon.com/images/I/814mI0-rkxL._SY466_.jpg",
-    "Elon Musk",
-    "Walter Isaacson", "non-fiction"),
+  (14, 'https://www.amazon.com/Moral-Animal-Science-Evolutionary-Psychology-ebook/dp/B00486U8N6', 
+    "https://m.media-amazon.com/images/I/51449gYdjhL._SY466_.jpg",
+    "The Moral Animal: Why We Are, the Way We Are: The New Science of Evolutionary Psychology",
+    "Robert Wright", "non-fiction"),
   (15, 'https://www.amazon.com/Omnivores-Dilemma-Natural-History-Meals/dp/0143038583', 
     "https://m.media-amazon.com/images/I/81xBWiuTmGL._SY466_.jpg",
     "The Omnivore's Dilemma: A Natural History of Four Meals",
@@ -71,19 +71,23 @@ INSERT INTO `book` VALUES
     "https://m.media-amazon.com/images/I/71TWKixwzWL._SY466_.jpg",
     "Raising Good Humans: A Mindful Guide to Breaking the Cycle of Reactive Parenting and Raising Kind, Confident Kids",
     "Hunter Clarke-Fields MSAE", "non-fiction"),
-  (18, 'https://www.amazon.com/Outlive-Science-Art-Longevity-author/dp/5194152388', 
-    "https://m.media-amazon.com/images/I/61hr3sauBqL._SY466_.jpg",
-    "Outlive: The Science and Art of Longevity",
-    "Peter Attia MD", "non-fiction"),
+  (18, 'https://www.amazon.com/dp/1250066115', 
+    "https://m.media-amazon.com/images/I/81RvGjUWqlL._SY466_.jpg",
+    "How Not to Die: Discover the Foods Scientifically Proven to Prevent and Reverse Disease",
+    "Michael Greger MD and Gene Stone", "non-fiction"),
   (19, 'https://www.amazon.com/Homo-Deus-Brief-History-Tomorrow/dp/0062464345', 
     "https://m.media-amazon.com/images/I/81hMjlT14ML._SY466_.jpg",
     "Homo Deus: A Brief History of Tomorrow",
     "Yuval Noah Harari", "non-fiction"),
-  (20, 'https://www.amazon.com/dp/0063027712', 
-    "https://m.media-amazon.com/images/I/81RYCCI3QIL._SY466_.jpg",
-    "Metabolical: The Lure and the Lies of Processed Food, Nutrition, and Modern Medicine",
-    "Robert H Lustig", "non-fiction");
+  (20, 'https://www.amazon.com/Lifespan-audiobook/dp/B07QGH1Q43', 
+    "https://m.media-amazon.com/images/I/41OHsYaqo3L._SY445_SX342_.jpg",
+    "Lifespan: Why We Age – and Why We Don’t Have To",
+    "Dr David A. Sinclair", "non-fiction");
 
+
+Cancel https://www.scribd.com/
+
+DELETE from 
 
 DELETE FROM prompt;
 
@@ -183,3 +187,10 @@ INSERT INTO `prompt` VALUES
   "discussion", "Discussion");
 
 
+bad response_piece_ids
+
+17225877684833147508
+8345947978927493534
+1843729306225647123
+14651579357573500744
+8587871527997959085

@@ -32,6 +32,7 @@ def insertFromDict(table, dict):
 
 def save_prompt_response(book_id, prompt_id, hash, prompt_text, response_list, llm, response_piece_id, compute_time, prompt_tokens, response_tokens, text_type):
     # delete old prompt_response if exists
+    # todo: speed this up
     sql = "SELECT id FROM prompt_response WHERE book_id = %s AND prompt_id = %s AND response_piece_id = %s"
     args = [book_id, prompt_id, response_piece_id]
     ids = list(db.query(sql, args))
@@ -88,16 +89,21 @@ def save_prompt_response(book_id, prompt_id, hash, prompt_text, response_list, l
 
 def parse_response_text(text, name):
     response_list = []
-    if name == "test":
-        try:
-            response_list = json.loads(text)
-        except ValueError:  # includes simplejson.decoder.JSONDecodeError
-            response_list = ast.literal_eval(text)
-    else:
-        response_list = text.split("\n\n")
-        # remove responses that are too short
-        response_list = list(filter(lambda x: len(x) > 50, response_list))
-
+    try:
+        if name == "test":
+            try:
+                response_list = json.loads(text)
+            except ValueError:  # includes simplejson.decoder.JSONDecodeError
+                response_list = ast.literal_eval(text)
+        else:
+            response_list = text.split("\n\n")
+            # remove responses that are too short
+            response_list = list(filter(lambda x: len(x) > 50, response_list))
+    except Exception as e:      
+        print("Error in parse_response_text")
+        print(text)
+        print(e)
+        sys.exit()
     return response_list
 
 def save_item(item):

@@ -36,9 +36,12 @@ def make_requests():
             try:
                 item = ast.literal_eval(text)
                 text = item['explanation']
-            except ValueError:  # includes simplejson.decoder.JSONDecodeError
-                print("JSON error")
+            except Exception as e:      
+                print("Error in parse_response_text")
+                print(id)
                 print(text)
+                print(e)
+                sys.exit()
 
         request = {
                "input": text,
