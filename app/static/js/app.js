@@ -225,13 +225,13 @@ app.view = {
         var html = '';
 
         html += '<div class="accordion-row">'
-        html += '<h3>' + prompt.label + "</h3>";
+        html += '<h3 class="mb-0 text-white">' + prompt.label + "</h3>";
         html += '</div>'
 
         for(var i = 0; i < list.length; i++) {
             html += '<div class="accordion-row">';
             if (prompt.name == "discussion") {
-                html += list[i].text;
+                html += '<p>' + list[i].text + '</p>';
             } else {
                 html += '<a href="/text_search?id=' + list[i].id + '">' + list[i].text + '</a>';            
             }
