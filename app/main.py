@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 import logging
 import json
 import db
+import ast
 
 
 # Database configuration
@@ -14,8 +15,8 @@ try:
 except:
   print("Error reading localsettings")
 
-app = FastAPI()
 logger = logging.getLogger("api")
+app = FastAPI()
 templates = Jinja2Templates(directory='templates/')
 app.mount('/template/static', StaticFiles(directory="static"), name="static")
 
@@ -40,9 +41,9 @@ async def book_view(request: Request, id):
     )
 
 @app.get("/test_me")
-async def test_me(request: Request, book_id):
+async def test_me(request: Request, book_id, response_piece_id):
     return templates.TemplateResponse(
-        "test_me.html", context={"request": request, "book_id": book_id}
+        "test_me.html", context={"request" : request, "book_id" : book_id, "response_piece_id" : response_piece_id}
     )
 
 
@@ -50,7 +51,6 @@ async def test_me(request: Request, book_id):
 @app.get("/get_books")
 async def get_books(request: Request):
     books = list(db.query("""SELECT * FROM book ORDER BY id DESC"""))
-
     return books
 
 @app.get("/get_book_content")
@@ -132,12 +132,16 @@ async def get_subresponse(response_piece_id):
 @app.get("/load_book_matches")
 async def load_book_matches(id):
 
-    query = "SELECT rp.matches, rp.text, pr.book_id, b.title, b.image_url FROM response_piece rp, prompt_response pr, book b WHERE rp.id = %s AND rp.prompt_response_id = pr.id AND pr.book_id = b.id"
+    query = "SELECT rp.matches, rp.text, rp.text_type, pr.book_id, b.title, b.image_url FROM response_piece rp, prompt_response pr, book b WHERE rp.id = %s AND rp.prompt_response_id = pr.id AND pr.book_id = b.id"
     rp_info = list(db.query(query, [id]))[0]
     response = {}
 
     if rp_info is not None:
-        response['match_text'] = rp_info['text']
+        if rp_info['text_type'] == 'test_question':
+            test_obj = ast.literal_eval(rp_info['text'])
+            response['match_text'] = test_obj['explanation']
+        else:
+            response['match_text'] = rp_info['text']
         book_id = rp_info['book_id']
         matches = json.loads(rp_info['matches'])
         title = rp_info['title']
@@ -196,23 +200,46 @@ async def load_page(book_id, page):
     return response
 
 @app.get("/get_test_questions")
-async def get_test_questions(book_id):
+async def get_test_questions(book_id, response_piece_id):
     response = {}
 
     query = "SELECT * FROM book WHERE id = %s"
     prompt_response = list(db.query(query, [book_id]))
     response['book_info'] = prompt_response[0]
-
-    # todo: make this work for other prompt_sets
-    query = "SELECT id FROM prompt_response WHERE book_id = %s AND prompt_id = 25"
-    prompt_list = list(db.query(query, [book_id]))
     questions = []
-    for prompt in prompt_list:
-        query = "SELECT text, id FROM response_piece WHERE prompt_response_id = %s"
-        prompt_questions = list(db.query(query, [prompt['id']]))
-        str_bigint(prompt_questions, ["id"])
-        for question in prompt_questions:
-            questions.append(question)
+
+    #logger.warn(f"JOSH 1")
+
+    if response_piece_id == '-1':
+        # todo: make this work for other prompt_sets
+        query = "SELECT id FROM prompt_response WHERE book_id = %s AND prompt_id = 25"
+        prompt_list = list(db.query(query, [book_id]))
+        for prompt in prompt_list:
+            query = "SELECT text, id FROM response_piece WHERE prompt_response_id = %s"
+            prompt_questions = list(db.query(query, [prompt['id']]))
+            str_bigint(prompt_questions, ["id"])
+            for question in prompt_questions:
+                questions.append(question)
+    else:
+        query = "SELECT id, prompt_id FROM prompt_response WHERE response_piece_id = %s"
+        prompt_list = list(db.query(query, [response_piece_id]))
+        for prompt in prompt_list:
+            query = "SELECT text, id, text_type FROM response_piece WHERE prompt_response_id = %s"
+            response_pieces = list(db.query(query, [prompt['id']]))
+            for response_piece in response_pieces:
+                if response_piece['text_type'] == 'test_question':
+                    questions.append(response_piece)
+
+                # go another layer deeper
+                query = "SELECT id, prompt_id FROM prompt_response WHERE response_piece_id = %s"
+                deep_prompt_list = list(db.query(query, [response_piece['id']]))
+                for deep_prompt in deep_prompt_list:
+                    query = "SELECT text, id, text_type FROM response_piece WHERE prompt_response_id = %s"
+                    deep_response_pieces = list(db.query(query, [deep_prompt['id']]))
+                    for deep_response_piece in deep_response_pieces:
+                        if deep_response_piece['text_type'] == 'test_question':
+                            questions.append(deep_response_piece)
+        str_bigint(questions, ["id"])
 
     response['question_list'] = questions
 

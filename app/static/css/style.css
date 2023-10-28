@@ -370,6 +370,7 @@ body{
     background-color:#161616; 
     box-shadow: none;
     border-radius: 8px;
+    text-decoration: none;
 }
 .faq-content .accordion-button:after{
     content: "";
@@ -863,4 +864,24 @@ body{
         font-size: 20px;
         line-height: 26px;
     }
+}
+
+
+.select_book_text{
+    display: inline-block;
+    padding: .25em 0;
+    background: #333333;
+    color: #ffffff;
+}
+
+#explanation a{
+    color: #BDBDBD;
+    text-decoration: none;
+}
+#explanation a:hover{
+    text-decoration:underline;            
+}
+
+.accordion-row a:hover{
+    text-decoration:underline;            
 }

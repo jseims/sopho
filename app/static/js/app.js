@@ -90,7 +90,7 @@ app.view = {
         html += '<h4 class="d-block mt-3 mt-md-4 pb-3 fw-medium">' + app.model.current_book.author + '</h4>';
         html += '<div class="d-block d-md-inline-flex btn-group mt-3 mt-md-5">';
         html += '<a href="' + app.model.current_book.amazon_url + '" class="me-3 rounded border-0 btn btn-primary btn-ex-md">Amazon Link</a>';
-        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '" class="d-block mt-3 mt-md-0 rounded border-0 btn btn-secondary btn-sm">Test Me</a>'
+        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '&response_piece_id=-1" class="d-block mt-3 mt-md-0 rounded border-0 btn btn-secondary btn-sm">Test Me</a>'
         html += '</div> </div> </div> </div> </div> </section>'
 
         html += '<div>';
@@ -255,7 +255,7 @@ app.view = {
 
         var html = '';
         html += '<div class="accordion-body"> <div class="mt-1 accordion-inner">';
-        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>';
+        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '&response_piece_id=' + app.model.response_piece_id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>';
         html += '<div class="accordion accordion-flush" id="accordionFlushExample">'
     
         for(var i = 0; i < app.model.subprompt_response_list.length; i++) {
@@ -280,7 +280,7 @@ app.view = {
 
         var html = '';
         html += '<div class="accordion-body"> <div class="accordion-inner">';
-        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>'
+        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '&response_piece_id=' + app.model.response_piece_id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>'
         html += '<div class="accordion-wrap">'
 
         html += '<div class="tab-content">';
@@ -321,7 +321,7 @@ app.view = {
         for(var i = 0; i < app.model.text_list.length; i++) {
             var text_obj = app.model.text_list[i];
             if (text_obj.id == app.model.content_info.id) {
-                content += '<p style="color: blue;">'
+                content += '<p class="select_book_text">'
             } else {
                 content += '<p>'
             }
@@ -396,6 +396,7 @@ app.model = {
             app.model.subprompt_response_list = json.subprompt_response_list;
             app.model.old_position = app.model.current_position;
             app.model.current_position = position;
+            app.model.response_piece_id = response_piece_id;
             app.view.display_subresponse();
         });
     },
@@ -408,6 +409,7 @@ app.model = {
             app.model.subsubprompt_response_list = json.subprompt_response_list;
             app.model.old_subposition = app.model.current_position;
             app.model.current_subposition = position;
+            app.model.response_piece_id = response_piece_id;
             app.view.display_subsubresponse();
         });
     },
@@ -455,9 +457,9 @@ app.model = {
         }
     },
 
-    load_book_test_questions : function(book_id) {
-        app.log("load_book_test_questions book id " + book_id)
-        $.getJSON(this.get_test_questions_url + "?book_id=" + book_id, function(json) {
+    load_book_test_questions : function(book_id, response_piece_id) {
+        app.log("load_book_test_questions book id " + book_id + " response_piece_id" + response_piece_id)
+        $.getJSON(this.get_test_questions_url + "?book_id=" + book_id + "&response_piece_id=" + response_piece_id, function(json) {
             app.log(json);
             app.model.question_list = app.shuffle(json.question_list);
             app.model.current_book = json.book_info;
