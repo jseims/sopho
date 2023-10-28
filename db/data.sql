@@ -24,7 +24,7 @@ INSERT INTO `book` VALUES
     "The Lessons of History",
     "Will Durant and Ariel Durant", "non-fiction"),
   (6, 'https://www.amazon.com/gp/product/1578645018', 
-    "https://m.media-amazon.com/images/I/81bvEcXd0yL._SX606_.jpg",
+    "https://m.media-amazon.com/images/I/81HHPBQH9dL._SY466_.jpg",
     "Poor Charlie's Almanack: The Wit and Wisdom of Charles T. Munger",
     "Charles T. Munger", "non-fiction"),
   (7, 'https://www.amazon.com/gp/product/0735213933', 
@@ -87,8 +87,7 @@ INSERT INTO `book` VALUES
 
 Cancel https://www.scribd.com/
 
-DELETE from 
-
+{"question": "What is a distinct characteristic of Escher\'s work seen in the context of self-reference?", "A)": "Sketches rigidly sticking to realism", "B)": "Sketches of hands drawing hands drawing the first hand", "C)": "Sketches void of reality and based purely on imagination", "D)": "Sketches of ordinary daily life events", "answer": "B)", "explanation": "Escher\'s Work often demonstrates the principle of self-reference by displaying scenes where elements create or interact with themselves. An example is hands drawing hands that are in turn drawing the first hand."}
 DELETE FROM prompt;
 
 INSERT INTO `prompt` VALUES 
