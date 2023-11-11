@@ -55,6 +55,13 @@ async def test_me(request: Request, book_id, response_piece_id):
         "test_me.html", context={"request" : request, "book_id" : book_id, "response_piece_id" : response_piece_id, "book_title" : book['title']}
     )
 
+@app.get("/about")
+async def about(request: Request):
+    return templates.TemplateResponse(
+        "about.html", context={"request" : request}
+    )
+
+
 
 # API handlers
 @app.get("/get_books")

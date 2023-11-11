@@ -372,6 +372,23 @@ body{
     border-radius: 8px;
     text-decoration: none;
 }
+.about-text p {
+    font-size: 18px;
+    line-height: 28px;
+    color: #bdbdbd;
+    font-weight:400;
+    box-shadow: none;
+    text-decoration: none;
+}
+.about-text h4 {
+    font-size: 36px;
+    line-height: 40px;
+    color: #51DFCF;
+    font-weight:400;
+    box-shadow: none;
+    text-decoration: none;
+}
+
 .faq-content .accordion-button:after{
     content: "";
     width: 40px;
