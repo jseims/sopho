@@ -17,7 +17,7 @@ except:
   print("Error reading localsettings")
 
 # 1 for top level summary, 2 for next summary, 3 for all the rest
-REQUEST_LEVEL = 3
+REQUEST_LEVEL = 1
 
 
 def dictValuePad(key):

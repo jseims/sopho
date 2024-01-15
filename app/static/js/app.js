@@ -341,6 +341,18 @@ app.view = {
         $('#back_page_btn').attr('onClick', 'app.model.load_page(' + app.model.content_info.book_id + ', ' + (app.model.cur_page - 1) + ');');
         $('#next_page_btn').removeAttr('onclick');
         $('#next_page_btn').attr('onClick', 'app.model.load_page(' + app.model.content_info.book_id + ', ' + (app.model.cur_page + 1) + ');');
+    },
+
+    contact_us : function() {
+        var email = $('#contact_us_email').val();
+        app.log(email);
+        var msg = $('#contact_us_msg').val();
+        app.log(msg);
+
+        app.model.contact_us(email, msg);
+
+        var html = "<p>Thank you for your message, we will review shortly</p>";
+        $("#contact_us_form").html(html);
     }
 
 };
@@ -370,6 +382,7 @@ app.model = {
     load_match_index_url : "load_match_index",
     load_page_url : "load_page",
     get_test_questions_url : "get_test_questions",
+    contact_us_url : "contact_us",
 
     get_books : function() {
         app.log(this.get_books_url);            
@@ -468,6 +481,23 @@ app.model = {
             app.model.question_number = 0;
             app.view.display_test(null);
         })
+    },
+
+    contact_us : function(email, msg) {
+        var data = {
+            email : email,
+            msg : msg
+        };
+
+        app.log(data);
+        app.log(JSON.stringify(data))
+        $.ajax({
+            url: this.contact_us_url,
+            type: "POST",
+            contentType:"application/json; charset=utf-8",
+            data: JSON.stringify(data),
+            dataType: "json",
+        });
     }
 
 

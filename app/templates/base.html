@@ -41,13 +41,13 @@
                     <div class="collapse d-lg-flex justify-content-between w-100 text-center text-lg-start navbar-collapse" >
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="me-lg-3 nav-item">
-                                <a class="nav-link ps-1 pe-1 text-light-gray fw-medium active" aria-current="page" href="/">Home</a>
+                                <a class="nav-link text-light-gray fw-medium {% block home_active %}{% endblock %}" href="/">Home</a>
                             </li>
                             <li class="me-lg-3 nav-item">
-                                <a class="nav-link  text-light-gray fw-medium" href="/about">About</a>
+                                <a class="nav-link text-light-gray fw-medium {% block about_active %}{% endblock %}" href="/about">About</a>
                             </li>
                             <li class="me-lg-3 nav-item">
-                                <a class="nav-link text-light-gray fw-medium" href="#">Contact</a>
+                                <a class="nav-link text-light-gray fw-medium {% block contact_active %}{% endblock %}" href="/contact">Contact</a>
                             </li>
                         </ul>
                        <!-- Begin search -->
@@ -113,8 +113,7 @@
     <script src="{{ url_for('static', path='/js/common-scripts.js') }}"></script>
     <script src="{{ url_for('static', path='/js/app.js?1') }}"></script>
 
-    {% block javascript %}
-    {% endblock %}
+    {% block javascript %}{% endblock %}
 
   </body>
 </html>

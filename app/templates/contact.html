@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div>
+  <section class="hero-wrap">
+    <div class="col-12 col-md-6 text-center text-md-start ms-auto me-auto mt-3 mt-md-0 ps-0 pe-0 about-text">
+      <h4 class="d-block mt-3 mt-md-4 pb-3 fw-medium">Contact Us</h4>
+      <p>Questions?  Concerns?  Want to recommend a book for Sopho.ai?</p>
+      <p>Send us a message!</p>
+
+      <div id="contact_us_form">
+        <form>
+          <div class="form-group">
+            <p>Your Email Address</p>
+            <input type="text" class="form-control" id="contact_us_email">
+          </div>
+
+          <div class="form-group" style="padding-top: 20px;">
+            <p>Your Message</p>
+            <textarea class="form-control" id="contact_us_msg" rows="3"></textarea>
+          </div>
+
+            <div class="form-actions" style="padding-top: 20px;">
+                <a class="btn btn-primary" onclick="app.view.contact_us()">Submit</a>
+            </div>
+        </form>
+      </div>
+
+    </div> 
+  </section>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+
+{% block page_title %}Contact Sopho.ai{% endblock %}
+{% block contact_active %}ps-1 pe-1 active{% endblock %}
