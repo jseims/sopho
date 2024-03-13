@@ -203,7 +203,7 @@ app.view = {
             html += 'data-bs-toggle="collapse" data-bs-target="#collapse_' + i + '" aria-expanded="false" aria-controls="collapse_' + i + '">'
             html += list[i].text;
             html += '</button></h2>'
-            html += '<div id="collapse_' + i + '" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample"></div></div>'
+            html += '<div id="collapse_' + i + '" class="accordion-collapse collapse" data-bs-parent="#accordionExample"></div></div>'
         }
 
         html += '</div></div></div></section>'
@@ -211,14 +211,14 @@ app.view = {
         return html;
     },
 
-    create_sublist_content : function(list) {
+    create_sublist_content : function(list, parent_position) {
         var html = '';
 
         for(var i = 0; i < list.length; i++) {
             html += '<div class="accordion-item mt-4 border-0"> <h2 class="accordion-header">';
-            html += '<button class="accordion-button collapsed" onclick="app.model.load_subsubresponse(\'' + list[i]['id'] +  '\', ' + i + ')" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">';
+            html += '<button class="accordion-button collapsed" onclick="app.model.load_subsubresponse(\'' + list[i]['id'] +  '\', ' + i + ')" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_' + i +'" aria-expanded="false" aria-controls="flush-collapse_' + i + '">';
             html += list[i].text;
-            html += '</button> </h2> <div id="flush-collapse_' + i + '" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample"></div></div>'
+            html += '</button> </h2> <div id="flush-collapse_' + i + '" class="accordion-collapse collapse" data-bs-parent="#collapse_' + parent_position + '"></div></div>'
         }
         return html;
     },
@@ -262,7 +262,7 @@ app.view = {
     
         for(var i = 0; i < app.model.subprompt_response_list.length; i++) {
             var list = app.model.subprompt_response_list;
-            var content_html = app.view.create_sublist_content(list[i].response_list);
+            var content_html = app.view.create_sublist_content(list[i].response_list, app.model.current_position);
             html += content_html;
         }
 
