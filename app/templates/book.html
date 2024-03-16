@@ -8,6 +8,11 @@
 {% block javascript %}
 <script type="text/javascript"> 
   app.model.load_book({{id}}); 
+  $(window).on('beforeunload', function(){
+    //set scroll position in session storage
+    sessionStorage.scrollPos = $(window).scrollTop();
+    app.log("set scroll pos " + $(window).scrollTop());
+});
 </script> 
 {% endblock %}
 

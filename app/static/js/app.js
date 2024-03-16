@@ -269,6 +269,9 @@ app.view = {
         html += '</div></div></div>';
 
         new_element.html(html);
+        new_element.collapse('show');
+
+        history.pushState({}, "", "#" + app.model.current_position + "-" + app.model.response_piece_id);
     },
 
 
@@ -282,7 +285,7 @@ app.view = {
 
         var html = '';
         html += '<div class="accordion-body"> <div class="accordion-inner">';
-        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '&response_piece_id=' + app.model.response_piece_id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>'
+        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '&response_piece_id=' + app.model.subresponse_piece_id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>'
         html += '<div class="accordion-wrap">'
 
         html += '<div class="tab-content">';
@@ -297,7 +300,10 @@ app.view = {
         html += '</div></div></div>';
 
         new_element.html(html);
+        new_element.collapse('show');
         new_element.removeClass("collapse");
+
+        history.pushState({}, "", "#" + app.model.current_position + "-" + app.model.response_piece_id + ',' + app.model.current_subposition + '-' + app.model.subresponse_piece_id);
     },    
 
     display_book_matches : function() {
@@ -400,13 +406,45 @@ app.model = {
             app.model.current_book = json.book_info;
             app.model.prompt_response_list = json.prompt_response_list;
             app.view.book_selected();
+
+            // load the hash
+            var hash = window.location.hash;
+            app.log("hash2 is " + hash);
+
+            if (hash) {
+                app.log("hash exists");
+            } else {
+                app.log("hash does not exist")
+            }
+
+            if (hash) {
+                if (hash.charAt(0) == '#') {
+                    hash = hash.slice(1);
+                }
+                var open_list = hash.split(',');
+
+                var [position, response_piece_id] = open_list[0].split('-');
+                var deferred = app.model.load_subresponse(response_piece_id, position);
+                $.when(deferred).done(function() {
+                    if (open_list.length > 1) {
+                        var [position, response_piece_id] = open_list[1].split('-');
+                        deferred = app.model.load_subsubresponse(response_piece_id, position);
+                        $.when(deferred).done(function() {
+                            setTimeout(function() {
+                                app.log("scroll pos " + sessionStorage.scrollPos);
+                                $(window).scrollTop(sessionStorage.scrollPos || 0);
+                            }, 500)
+                        });
+                    }    
+                });
+            }
         });
     },
 
     // position is how far down the list of content got clicked
     load_subresponse : function (response_piece_id, position) {        
-        app.log("load_subresponse response_piece_id " + response_piece_id + " book_id " + app.model.current_book.id);
-        $.getJSON(this.get_subresponse_url + "?response_piece_id=" + response_piece_id, function(json) {
+        app.log("load_subresponse response_piece_id " + response_piece_id + " position " + position + " book_id " + app.model.current_book.id);
+        return $.getJSON(this.get_subresponse_url + "?response_piece_id=" + response_piece_id, function(json) {
             app.log(json);
             app.model.subprompt_response_list = json.subprompt_response_list;
             app.model.old_position = app.model.current_position;
@@ -419,13 +457,14 @@ app.model = {
     // position is how far down the list of content got clicked
     load_subsubresponse : function (response_piece_id, position) {        
         app.log("load_subsubresponse response_piece_id " + response_piece_id + " book_id " + app.model.current_book.id);
-        $.getJSON(this.get_subsubresponse_url + "?response_piece_id=" + response_piece_id, function(json) {
+        return $.getJSON(this.get_subsubresponse_url + "?response_piece_id=" + response_piece_id, function(json) {
             app.log(json);
             app.model.subsubprompt_response_list = json.subprompt_response_list;
             app.model.old_subposition = app.model.current_position;
             app.model.current_subposition = position;
-            app.model.response_piece_id = response_piece_id;
+            app.model.subresponse_piece_id = response_piece_id;
             app.view.display_subsubresponse();
+            app.log("done subsub");
         });
     },
     
