@@ -195,7 +195,7 @@ app.view = {
     create_list_content : function(list) {
         var html = '';
 
-        html += '<section class="faq-content"> <div class="container-xl"> <div class="row"><div class="p-0 accordion" id="accordionExample">';
+        html += '<section class="lev1-content"> <div class="container-xl"> <div class="row"><div class="p-0 accordion" id="accordionExample">';
 
         for(var i = 0; i < list.length; i++) {
             html += '<div class="accordion-item mt-4 border-0"> <h2 class="accordion-header">';
@@ -256,7 +256,7 @@ app.view = {
         old_element.html("");
 
         var html = '';
-        html += '<div class="accordion-body"> <div class="mt-1 accordion-inner">';
+        html += '<section class="lev2-content"><div class="accordion-body"> <div class="mt-1 accordion-inner sublist">';
         html += '<a href="/test_me?book_id=' + app.model.current_book.id + '&response_piece_id=' + app.model.response_piece_id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>';
         html += '<div class="accordion accordion-flush" id="accordionFlushExample">'
     
@@ -266,7 +266,7 @@ app.view = {
             html += content_html;
         }
 
-        html += '</div></div></div>';
+        html += '</div></div></div></section>';
 
         new_element.html(html);
         new_element.collapse('show');
@@ -284,7 +284,7 @@ app.view = {
         old_element.html("");
 
         var html = '';
-        html += '<div class="accordion-body"> <div class="accordion-inner">';
+        html += '<section class="lev3-content"><div class="accordion-body"> <div class="accordion-inner">';
         html += '<a href="/test_me?book_id=' + app.model.current_book.id + '&response_piece_id=' + app.model.subresponse_piece_id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>'
         html += '<div class="accordion-wrap">'
 
@@ -297,7 +297,7 @@ app.view = {
             html += content_html;
         }
 
-        html += '</div></div></div>';
+        html += '</div></div></div></section>';
 
         new_element.html(html);
         new_element.collapse('show');

@@ -356,6 +356,7 @@ body{
 .accordion-inner{
     transition: all 0.3s;
 }
+
 .faq-content .accordion-button,
 .accordion-row p,
 .accordion-row a,
@@ -367,11 +368,55 @@ body{
     color: #BDBDBD;
     font-weight:400;
     padding:14px 20px 11px 60px;
+ /*    background-color:#161616; */
+    box-shadow: none;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.lev1-content .accordion-button,
+.accordion-row p,
+.accordion-row a {
+    font-size: 18px;
+    line-height: 28px;
+    color: #BDBDBD;
+    font-weight:400;
+    padding:14px 20px 11px 60px;
     background-color:#161616; 
     box-shadow: none;
     border-radius: 8px;
     text-decoration: none;
 }
+
+.lev2-content .accordion-button,
+.accordion-row p,
+.accordion-row a {
+    font-size: 18px;
+    line-height: 28px;
+    color: #BDBDBD;
+    font-weight:400;
+    padding:14px 20px 11px 60px;
+    background-color:#161616; 
+    box-shadow: none;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.lev3-content .accordion-button,
+.accordion-row p,
+.accordion-row a {
+    font-size: 18px;
+    line-height: 28px;
+    color: #BDBDBD;
+    font-weight:400;
+    padding:14px 20px 11px 60px;
+    background-color:#161616; 
+    box-shadow: none;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+
 .about-text p {
     font-size: 18px;
     line-height: 28px;
@@ -389,7 +434,7 @@ body{
     text-decoration: none;
 }
 
-.faq-content .accordion-button:after{
+.lev1-content .accordion-button:after{
     content: "";
     width: 40px;
     height: 100%;
@@ -404,15 +449,29 @@ body{
     border-radius: 10px 0 0 10px;
     transform: rotate(0deg);
 }
-.faq-content .accordion-button.collapsed:after{
+.lev1-content .accordion-button.collapsed:after{
     background-image: url(../svgs/plus.svg);
     transform: rotate(0deg);
 }
 .accordion-body{
-    background-color: #0e0e0e;
+    background-color: #000000;
     padding-left: 0;
     padding-right: 0;
 }
+
+.lev2-content .accordion-body{
+    background-color: #101010;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.lev3-content .accordion-body{
+    background-color: #202020;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
 .accordion-inner .accordion,
 .accordion-wrap{
     padding-left: 30px;
