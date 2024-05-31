@@ -266,7 +266,7 @@ app.view = {
             html += content_html;
         }
 
-        html += '</div></div></div></section>';
+        html += '</div><hr></div></div></section>';
 
         new_element.html(html);
         new_element.collapse('show');
@@ -297,7 +297,7 @@ app.view = {
             html += content_html;
         }
 
-        html += '</div></div></div></section>';
+        html += '</div><hr></div></div></section>';
 
         new_element.html(html);
         new_element.collapse('show');

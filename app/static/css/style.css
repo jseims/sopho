@@ -434,6 +434,14 @@ body{
     text-decoration: none;
 }
 
+.lev1-content hr {
+    border: none;
+    height: 5px;
+    /* Set the hr color */
+    color: #aaaaaa;  /* old IE */
+    background-color: #aaaaaa;  /* Modern Browsers */
+  }
+
 .lev1-content .accordion-button:after{
     content: "";
     width: 40px;
@@ -454,19 +462,7 @@ body{
     transform: rotate(0deg);
 }
 .accordion-body{
-    background-color: #000000;
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.lev2-content .accordion-body{
-    background-color: #101010;
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.lev3-content .accordion-body{
-    background-color: #202020;
+    background-color: #0e0e0e;
     padding-left: 0;
     padding-right: 0;
 }
