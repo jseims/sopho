@@ -10,6 +10,7 @@ import ast
 
 # Database configuration
 DEFAULT_PROMPT_SET = 0
+MAX_PAGE_COUNT = 20
 try:
   from localsettings import *
 except:
@@ -210,12 +211,17 @@ async def load_match_index(id):
 
     return response
 
+
 @app.get("/load_page")
-async def load_page(book_id, page):
+async def load_page(book_id, page, count):
     response = {}
-    query = "SELECT id, text FROM book_content WHERE book_id = %s AND page = %s ORDER BY position"
-    text_list = list(db.query(query, [book_id, page]))
-    str_bigint(text_list, ["id"])
+
+    if int(count) > MAX_PAGE_COUNT:
+        text_list = [{'id' : -1, 'text' : 'You have reached the maximum allowed page views for this book'}]
+    else:
+        query = "SELECT id, text FROM book_content WHERE book_id = %s AND page = %s ORDER BY position"
+        text_list = list(db.query(query, [book_id, page]))
+        str_bigint(text_list, ["id"])
     response['text_list'] = text_list
 
     return response

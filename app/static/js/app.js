@@ -502,7 +502,18 @@ app.model = {
     load_page : function(book_id, page) {
         app.log("load_page book id " + book_id + " page " + page)
         if (page > 0 && page <= app.model.max_page) {
-            $.getJSON(this.load_page_url + "?book_id=" + book_id + "&page=" + page, function(json) {
+
+            // increment page count limit
+            var countStr = localStorage.getItem(book_id);
+            var count = 1;
+            if (countStr) {
+                count = parseInt(countStr);
+                count += 1;
+            }
+            localStorage.setItem(book_id, count);
+            app.log("count = " + count);
+        
+            $.getJSON(this.load_page_url + "?book_id=" + book_id + "&page=" + page + "&count=" + count, function(json) {
                 app.log(json);
                 app.model.text_list = json.text_list;
                 app.model.cur_page = page
