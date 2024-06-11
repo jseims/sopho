@@ -9,9 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
-  <link rel="icon" href="{{ url_for('static', path='/svgs/favicon.svg') }}">
+  <link rel="stylesheet" href="template/static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="template/static/css/style.css">
+  <link rel="icon" href="template/static/svgs/favicon.svg">
 </head>
 
 <body>
@@ -23,14 +23,14 @@
         <div class="container-xl">
             <div class="row">
                 <nav class="navbar p-0 navbar-expand-lg">
-                    <a class="navbar-brand" href="/"><img class="w-100" src="{{ url_for('static', path='/svgs/logo.svg') }}" alt="logo"></a>
+                    <a class="navbar-brand" href="/"><img class="w-100" src="template/static/svgs/logo.svg" alt="logo"></a>
                     <div class="navbar-button-wrap d-flex align-items-center">
                         <div class="d-lg-none d-flex align-items-center me-2 header-search-wrap">
                             <div class="header-search">
                                 <input type="search" placeholder="Search here">
                             </div>
                             <div class="header-search-icon">
-                                <a href="#" class="search-trigger"><img src="{{ url_for('static', path='/svgs/search.svg') }}" alt=""></a>
+                                <a href="#" class="search-trigger"><img src="template/static/svgs/search.svg" alt=""></a>
                             </div>
                         </div>
                     
@@ -56,7 +56,7 @@
                                 <input type="search" placeholder="Search here">
                             </div>
                             <div class="header-search-icon">
-                                <a href="#" class="search-trigger"><img src="{{ url_for('static', path='/svgs/search.svg') }}" alt=""></a>
+                                <a href="#" class="search-trigger"><img src="template/static/svgs/search.svg" alt=""></a>
                             </div>
                         </div>
                         <!-- End search -->
@@ -107,11 +107,11 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{{ url_for('static', path='/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url_for('static', path='/js/jquery-3.7.1.js') }}"></script>
-    <script src="{{ url_for('static', path='/js/json5.js') }}"></script>
-    <script src="{{ url_for('static', path='/js/common-scripts.js') }}"></script>
-    <script src="{{ url_for('static', path='/js/app.js?1') }}"></script>
+    <script src="template/static//js/bootstrap.bundle.min.js"></script>
+    <script src="template/static/js/jquery-3.7.1.js"></script>
+    <script src="template/static//js/json5.js"></script>
+    <script src="template/static//js/common-scripts.js"></script>
+    <script src="template/static//js/app.js?1"></script>
 
     {% block javascript %}{% endblock %}
 
