@@ -12,6 +12,27 @@
   <link rel="stylesheet" href="template/static/css/bootstrap.min.css">
   <link rel="stylesheet" href="template/static/css/style.css">
   <link rel="icon" href="template/static/svgs/favicon.svg">
+
+  <style>
+    .navbar .btn {
+      width: auto;
+      white-space: nowrap;
+    }
+    .navbar .left-link {
+      margin-right: auto;
+    }
+    .navbar .right-links {
+      margin-left: auto;
+      margin-right: 20px;
+      margin-top: 5px;
+    }
+
+    .navbar .right-links a:last-child {
+      margin-right: 0; /* Remove margin from the last link */
+    }
+
+  </style>
+
 </head>
 
 <body>
@@ -23,40 +44,15 @@
         <div class="container-xl">
             <div class="row">
                 <nav class="navbar p-0 navbar-expand-lg">
-                    <a class="navbar-brand" href="/"><img class="w-100" src="template/static/svgs/logo.svg" alt="logo"></a>
-                    <div class="navbar-button-wrap d-flex align-items-center">
-                        <div class="d-lg-none d-flex align-items-center me-2 header-search-wrap">
-                            <div class="header-search">
-                                <input type="search" placeholder="Search here">
-                            </div>
-                            <div class="header-search-icon">
-                                <a href="#" class="search-trigger"><img src="template/static/svgs/search.svg" alt=""></a>
-                            </div>
+                    <div class="d-flex justify-content-between" style="width: 100%;">
+                        <a class="navbar-brand left-link" href="/"><img class="w-100" src="template/static/svgs/logo.svg" alt="logo"></a>
+                        <div class="right-links d-flex">
+                            <a class="nav-link right-links text-light-gray fw-medium {% block home_active %}{% endblock %}" href="/">Home</a>
+                            <a class="nav-link right-links text-light-gray fw-medium {% block about_active %}{% endblock %}" href="/about">About</a>
+                            <a class="nav-link right-links text-light-gray fw-medium {% block contact_active %}{% endblock %}" href="/contact">Contact</a>
                         </div>
-                    
-                    <button class="navbar-toggler bg-merun" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    </div>
-                    <div class="collapse d-lg-flex justify-content-between w-100 text-center text-lg-start navbar-collapse" >
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <!-- to create space -->
-                        </ul>
-                        <div class="d-lg-flex d-none align-items-center header-search-wrap">
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li class="me-lg-3 nav-item">
-                                    <a class="nav-link text-light-gray fw-medium {% block home_active %}{% endblock %}" href="/">Home</a>
-                                </li>
-                                <li class="me-lg-3 nav-item">
-                                    <a class="nav-link text-light-gray fw-medium {% block about_active %}{% endblock %}" href="/about">About</a>
-                                </li>
-                                <li class="me-lg-3 nav-item">
-                                    <a class="nav-link text-light-gray fw-medium {% block contact_active %}{% endblock %}" href="/contact">Contact</a>
-                                </li>
-                            </ul>
-                            </div>
-                    </div>
-                </nav>
+                     </div>
+                  </nav>                                                                                            
             </div>
         </div>
     </header>
