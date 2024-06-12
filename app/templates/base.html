@@ -40,40 +40,21 @@
                     </div>
                     <div class="collapse d-lg-flex justify-content-between w-100 text-center text-lg-start navbar-collapse" >
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="me-lg-3 nav-item">
-                                <a class="nav-link text-light-gray fw-medium {% block home_active %}{% endblock %}" href="/">Home</a>
-                            </li>
-                            <li class="me-lg-3 nav-item">
-                                <a class="nav-link text-light-gray fw-medium {% block about_active %}{% endblock %}" href="/about">About</a>
-                            </li>
-                            <li class="me-lg-3 nav-item">
-                                <a class="nav-link text-light-gray fw-medium {% block contact_active %}{% endblock %}" href="/contact">Contact</a>
-                            </li>
+                            <!-- to create space -->
                         </ul>
-                       <!-- Begin search -->
                         <div class="d-lg-flex d-none align-items-center header-search-wrap">
-                            <div class="header-search">
-                                <input type="search" placeholder="Search here">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="me-lg-3 nav-item">
+                                    <a class="nav-link text-light-gray fw-medium {% block home_active %}{% endblock %}" href="/">Home</a>
+                                </li>
+                                <li class="me-lg-3 nav-item">
+                                    <a class="nav-link text-light-gray fw-medium {% block about_active %}{% endblock %}" href="/about">About</a>
+                                </li>
+                                <li class="me-lg-3 nav-item">
+                                    <a class="nav-link text-light-gray fw-medium {% block contact_active %}{% endblock %}" href="/contact">Contact</a>
+                                </li>
+                            </ul>
                             </div>
-                            <div class="header-search-icon">
-                                <a href="#" class="search-trigger"><img src="template/static/svgs/search.svg" alt=""></a>
-                            </div>
-                        </div>
-                        <!-- End search -->
-                        <div class="btn-group d-block d-lg-flex ">
-                            <a href="#" class="mt-3 mt-md-0 d-block ms-md-2 rounded border-0 btn btn-secondary btn-sm">Login</a>
-                            <a href="#" class="btn mt-3 mt-lg-0 d-block ms-lg-3  rounded border-0 btn btn-primary btn-ex-md">
-                                <svg class="me-1" width="17" height="20" viewBox="0 0 17 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <g clip-path="url(#clip0_301_71)">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.34783 7.99999C6.49753 7.99999 4.9928 6.56479 4.9928 4.79999C4.9928 3.03519 6.49753 1.59999 8.34783 1.59999C10.1981 1.59999 11.7029 3.03519 11.7029 4.79999C11.7029 6.56479 10.1981 7.99999 8.34783 7.99999ZM11.4999 8.53837C12.831 7.51677 13.6068 5.86474 13.3217 4.05594C12.9903 1.95754 11.1602 0.278381 8.9509 0.0335815C5.90202 -0.304819 3.31529 1.95919 3.31529 4.79999C3.31529 6.31199 4.05003 7.65917 5.19578 8.53837C2.38091 9.54717 0.325952 11.916 0.00386844 15.1128C-0.0431014 15.5856 0.343569 16 0.841791 16C1.26872 16 1.63274 15.6928 1.67048 15.2872C2.00683 11.7168 4.87286 9.59999 8.34783 9.59999C11.8228 9.59999 14.6888 11.7168 15.0252 15.2872C15.0629 15.6928 15.4269 16 15.8539 16C16.3521 16 16.7388 15.5856 16.6918 15.1128C16.3697 11.916 14.3147 9.54717 11.4999 8.53837Z" fill="currentColor"/>
-                                     </g>
-                                     <defs>
-                                        <clipPath id="clip0_301_71">
-                                            <rect width="16.6957" height="16" fill="white"/>
-                                        </clipPath>
-                                    </defs>
-                                </svg> Sign up</a>
-                        </div>
                     </div>
                 </nav>
             </div>
