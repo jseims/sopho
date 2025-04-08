@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Form, File, UploadFile, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from typing import List, Optional
 from pydantic import BaseModel
 import logging
 import json
@@ -283,7 +284,6 @@ class Message(BaseModel):
 
 @app.post("/contact_us")
 async def contact_us(msg: Message):
-    logger.warn(f"JOSH 1")
     logger.warn(msg)
 
     # Replace sender@example.com with your "From" address.
@@ -350,3 +350,15 @@ async def contact_us(msg: Message):
     else:
         print("Email sent! Message ID:"),
         print(response['MessageId'])    
+
+
+@app.post("/email_hook")
+async def email_hook(request: Request):
+    form = await request.form()
+
+    logger.warn("==== Incoming email webhook ====")
+    for key, value in form.items():
+        print(f"<key>{key}</key>: {value}")
+
+
+    return {"status": "received"}
