@@ -7,6 +7,7 @@ import logging
 import json
 import db
 import ast
+import email_handler
 
 
 # Database configuration
@@ -351,14 +352,4 @@ async def contact_us(msg: Message):
         print("Email sent! Message ID:"),
         print(response['MessageId'])    
 
-
-@app.post("/email_hook")
-async def email_hook(request: Request):
-    form = await request.form()
-
-    logger.warn("==== Incoming email webhook ====")
-    for key, value in form.items():
-        print(f"<key>{key}</key>: {value}")
-
-
-    return {"status": "received"}
+app.include_router(email_handler.router, prefix="/email")
