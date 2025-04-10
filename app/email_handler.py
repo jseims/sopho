@@ -41,8 +41,8 @@ async def process_email_hook(request: Request):
     form = await request.form()
 
     logger.warn("==== Incoming email webhook ====")
-    #for key, value in form.items():
-    #    print(f"<key>{key}</key>: {value}")
+    for key, value in form.items():
+        print(f"<key>{key}</key>: {value}")
 
     args = {}
     email_id = random.randint(1, 18446744073709551615)
@@ -91,8 +91,6 @@ async def process_email_hook(request: Request):
 
     except Exception as e:      
         print("Error in process_email_hook saving to db")
-        for key, value in form.items():
-            print(f"<key>{key}</key>: {value}")
         print(e)
 
     return {"status": "received"}

@@ -32,3 +32,9 @@ else:
     # Optional: parse if JSON-encoded
     print("Received message:", body)
 
+    sqs.delete_message(
+        QueueUrl=queue_url,
+        ReceiptHandle=receipt_handle
+    )
+    print("Message deleted.")
+

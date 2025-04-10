@@ -352,4 +352,5 @@ async def contact_us(msg: Message):
         print("Email sent! Message ID:"),
         print(response['MessageId'])    
 
+# include all the email handling logic in a separate file
 app.include_router(email_handler.router, prefix="/email")
