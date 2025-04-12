@@ -41,6 +41,18 @@ CREATE TABLE llm_config (
   id bigint unsigned NOT NULL PRIMARY KEY,
   email varchar(1024) NOT NULL,
   model varchar(1024) NOT NULL,
+  tool varchar(1024) DEFAULT NULL,
+  context_window int NOT NULL,
   prompt TEXT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS llm_response;
+CREATE TABLE llm_response (
+  id bigint unsigned NOT NULL PRIMARY KEY,
+  job_id bigint unsigned NOT NULL,
+  text TEXT NOT NULL,
+  response TEXT NOT NULL,
+  KEY job_key (job_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

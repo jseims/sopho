@@ -1,13 +1,17 @@
 from abc import ABC, abstractmethod
 
 class MessageDelegate(ABC):
-    def __init__(self, id):
-        self.id = id
+    def __init__(self, msg_id):
+        self.msg_id = msg_id
 
     @abstractmethod
-    def get_text(self):
+    def get_conversation_text(self, context_window):
         pass
 
     @abstractmethod
-    def send_message(self, text):
+    def get_llm_config(self):
+        pass
+
+    @abstractmethod
+    def send_message(self, new_message):
         pass
