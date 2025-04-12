@@ -33,7 +33,7 @@ CREATE TABLE email (
   message_id varchar(1024) DEFAULT NULL,
   email_references TEXT DEFAULT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 DROP TABLE IF EXISTS llm_config;
@@ -54,5 +54,9 @@ CREATE TABLE llm_response (
   text TEXT NOT NULL,
   response TEXT NOT NULL,
   KEY job_key (job_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+# purge current state
+delete from job;
+delete from email;
+delete from llm_response;

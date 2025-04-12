@@ -53,6 +53,8 @@ def save_llm_response(job_id, text, response):
     # save state on job table
     db.query("""UPDATE job SET status = %s WHERE id = %s""", ['done', job_id])
 
+def save_error_response(job_id, error_message):
+    db.query("""UPDATE job SET status = %s, error_msg = %s WHERE id = %s""", ['error', error_message, job_id])
 
 while True:
     # Receive a message (long polling for up to 10 seconds)
@@ -67,43 +69,38 @@ while True:
     if messages:
         msg = messages[0]
         receipt_handle = msg['ReceiptHandle']
-        body = msg['Body']
+        job_id = msg['Body']
+        try:
+            print("Received message:", job_id)
 
-        # Optional: parse if JSON-encoded
-        print("Received message:", body)
+            # load the job with the id matching 'body'
+            jobs = list(db.query("""SELECT * from job WHERE id = %s""", [job_id]))
+            #print(jobs)
 
-        # load the job with the id matching 'body'
-        jobs = list(db.query("""SELECT * from job WHERE id = %s""", [body]))
-        #print(jobs)
-        if len(jobs) == 0:
-           print("WARNING: no job found with id %s" % (body))
-           continue
+            # if it's an email job, use email delegate to get the message
+            delegate = EmailDelegate(jobs[0]['msg_id'])
+            llm_config = delegate.get_llm_config()
 
-        # if it's an email job, use email delegate to get the message
-        delegate = EmailDelegate(jobs[0]['msg_id'])
-        llm_config = delegate.get_llm_config()
+            text = delegate.get_conversation_text(llm_config['context_window'])
 
-        if llm_config is None:
-           # should save an error here
-           continue
+            # call the LLM
+            if llm_config:
+                response = llm_utils.send_text_to_llm(llm_config, text)
 
-        text = delegate.get_conversation_text(llm_config['context_window'])
+            if response:
+                # store the response
+                save_llm_response(job_id, text, response)
 
-        # call the LLM
-        if llm_config:
-            response = llm_utils.send_text_to_llm(llm_config, text)
+                # use email delegate to send the message
+                delegate.send_message(response)
+        except Exception as e:
+            error_message = str(e)
+            save_error_response(job_id, error_message)
+        finally:
+            sqs.delete_message(
+                QueueUrl=queue_url,
+                ReceiptHandle=receipt_handle
+            )
 
-        if response:
-            # store the response
-            save_llm_response(jobs[0]['msg_id'], text, response)
-
-            # use email delegate to send the message
-            delegate.send_message(response)
-
-        #sqs.delete_message(
-        #    QueueUrl=queue_url,
-        #    ReceiptHandle=receipt_handle
-        #)
-
-    time.sleep(1000)
+    time.sleep(1)
 

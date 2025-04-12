@@ -42,7 +42,7 @@ class EmailDelegate(MessageDelegate):
             if match:
                 email = match.group(0)
                 if not email.lower().endswith("@sopho.ai"):
-                    filtered.append(email)
+                    filtered.append(entry)
                 else:
                     self.sopho_email = email
 
@@ -51,8 +51,10 @@ class EmailDelegate(MessageDelegate):
     # clean it up for sending to LLM
     def get_conversation_text(self, context_window):
         response = "From: " + self.email['email_from'] + "\n"
-        response += "To: " + (", ").join(self.to_list) + "\n"
-        response += "CC: " + (", ").join(self.cc_list) + "\n"
+        if len(self.to_list) > 0:
+            response += "To: " + (", ").join(self.to_list) + "\n"
+        if len(self.cc_list) > 0:
+            response += "CC: " + (", ").join(self.cc_list) + "\n"
         response += "Subject: " + self.email['subject'] + "\n\n"
         response += self.email['email_text']
 

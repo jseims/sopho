@@ -32,7 +32,7 @@ def query(sql, args=None, as_dict=True):
                                   DATABASE_USER,
                                   DATABASE_PASSWORD,
                                   DATABASE_NAME,
-                                  charset='utf8',
+                                  charset='utf8mb4',
                                   use_unicode=True)
             dbc.autocommit(1)
         if as_dict:
