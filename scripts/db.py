@@ -56,7 +56,7 @@ def query(sql, args=None, as_dict=True):
         # retry if connection was dropped                
         if error_code in [2006, 2013]: 
             dbc = None
-            return query(sql, args, **kwargs)
+            return query(sql, args, as_dict)
         else:
             raise e
             
