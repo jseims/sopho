@@ -101,6 +101,10 @@ while True:
                 QueueUrl=queue_url,
                 ReceiptHandle=receipt_handle
             )
+    else:
+        # hit the DB to keep the connection alive
+        db.query("""SELECT * from llm_config WHERE id = 1""")
+
 
     time.sleep(1)
 
