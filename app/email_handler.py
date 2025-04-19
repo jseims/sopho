@@ -14,6 +14,7 @@ import boto3
 
 router = APIRouter()
 logger = logging.getLogger("api")
+templates = Jinja2Templates(directory='templates/')
 
 try:
   from localsettings import *
@@ -34,6 +35,13 @@ def insertFromDict(table, dict):
     sql += ', '.join(map(dictValuePad, dict))
     sql += ');'
     return sql
+
+@router.get("/")
+async def index(request: Request):
+    result = "Enter your name"
+    return templates.TemplateResponse(
+        "email_home.html", context={"request": request, "result": result}
+    )
 
 
 @router.post("_hook")

@@ -425,6 +425,17 @@ body{
     box-shadow: none;
     text-decoration: none;
 }
+.about-text li {
+    font-size: 18px;
+    line-height: 28px;
+    color: #bdbdbd;
+    font-weight:400;
+    box-shadow: none;
+    text-decoration: none;
+}
+.about-text a {
+    text-decoration: none;
+}
 .about-text h4 {
     font-size: 36px;
     line-height: 40px;

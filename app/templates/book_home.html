@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+            <!-- Hero section start -->
+            <section class="bg-black-dark hero-wrap">
+                <div class="rounded-5 bg-style hero-inner" style="background-image: url('/template/static/img/hero-bg.png');">
+                    <div class="container-xl">
+                        <div class="row align-items-center ">
+                            <div class="col-12 col-md-6 order-2  order-md-1 p-0 text-center text-md-start mt-4 mt-md-0 hero-text">
+                                <h1 class="mb-3 mb-md-4 text-white">Let <span class="text-merun">AI</span><br> Chew Books</h1>
+                                <p class="fs-4 lh-base fw-normal text-light-gray">So you can swallow them more easily</p>
+                                <a href="#book_list" class="rounded d-flex align-items-center justify-content-center border-0 btn btn-primary btn-lg">Click a Book 
+                                    <svg class="ms-2" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4 10.4167H17M17 10.4167L11.5833 5M17 10.4167L11.5833 15.8333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="col-12 col-md-6 order-1 order-md-2 hero-thumb">
+                                <figure>
+                                    <img src="/template/static/img/hero-thumb.png" alt="hero-thumb" class="w-100">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Hero section end -->
+
+            <section class="bg-black-dark blog">
+                <div class="container-xl">
+                    <div class="row">
+                        <div class="card-wrap" id="book_list"></div>
+                    </div>
+                </div>
+            </section>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript"> 
+  app.model.get_books();
+</script> 
+{% endblock %}
+
+{% block page_title %}AI Makes Books Easier to Read{% endblock %}
+{% block container_class %}hp{% endblock %}
+{% block book_active %}ps-1 pe-1 active{% endblock %}

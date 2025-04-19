@@ -66,7 +66,7 @@ app.view = {
 
             book = app.model.books[i];
 
-            html += '<a href="/book?id=' + book.id + '" class="card rounded-3">'
+            html += '<a href="/book/book?id=' + book.id + '" class="card rounded-3">'
             html += '<div class="image-wrapper">';
 
             html += '<img src="' + book.image_url + '" alt="book thumnail" width=160 height=233>';
@@ -92,7 +92,7 @@ app.view = {
         html += '<h4 class="d-block mt-3 mt-md-4 pb-3 fw-medium">' + app.model.current_book.author + '</h4>';
         html += '<div class="d-block d-md-inline-flex btn-group mt-3 mt-md-5">';
         html += '<a href="' + app.model.current_book.amazon_url + '" class="me-3 rounded border-0 btn btn-primary btn-ex-md">Amazon Link</a>';
-        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '&response_piece_id=-1" class="d-block mt-3 mt-md-0 rounded border-0 btn btn-secondary btn-sm">Test Me</a>'
+        html += '<a href="/book/test_me?book_id=' + app.model.current_book.id + '&response_piece_id=-1" class="d-block mt-3 mt-md-0 rounded border-0 btn btn-secondary btn-sm">Test Me</a>'
         html += '</div> </div> </div> </div> </div> </section>'
 
         html += '<div>';
@@ -114,7 +114,7 @@ app.view = {
         html += '<div class="row align-items-center"> <div class="col-12 col-md-2 ps-4 hero-thumb"> <figure class="rounded-4">';
         html += '<img src="' + app.model.current_book.image_url + '" width=184px height=240px alt="hero-thumb" class="w-100">';
         html += '</figure> </div> <div class="col-12 col-md-10 hero-text">';
-        html += '<a href=/book?id=' + app.model.current_book.id + ' class="d-flex ms-0 ms-md-4 align-items-center back-link">';
+        html += '<a href=/book/book?id=' + app.model.current_book.id + ' class="d-flex ms-0 ms-md-4 align-items-center back-link">';
         html += '<img src="/template/static/svgs/back-arrow.svg" alt="">';
         html += '<span class="ps-4 fw-semibold">Back to ' + app.model.current_book.title + '</span>';
         html += '</a> </div> </div> </div> </section>';
@@ -154,7 +154,7 @@ app.view = {
             html = "<span>" + score + "</span>/100";
             $("#test_score").html(html);
 
-            html = '<a href="/text_search?id=' + app.model.question_list[app.model.question_number-1].id + '">' + last_question.explanation + '</a>';            
+            html = '<a href="/book/text_search?id=' + app.model.question_list[app.model.question_number-1].id + '">' + last_question.explanation + '</a>';            
             $("#explanation").html(html);
         } else {
             $("#award_img").hide(html);
@@ -235,7 +235,7 @@ app.view = {
             if (prompt.name == "discussion") {
                 html += '<p>' + list[i].text + '</p>';
             } else {
-                html += '<a href="/text_search?id=' + list[i].id + '">' + list[i].text + '</a>';            
+                html += '<a href="/book/text_search?id=' + list[i].id + '">' + list[i].text + '</a>';            
             }
             html += '</div>'
         }
@@ -257,7 +257,7 @@ app.view = {
 
         var html = '';
         html += '<section class="lev2-content"><div class="accordion-body"> <div class="mt-1 accordion-inner sublist">';
-        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '&response_piece_id=' + app.model.response_piece_id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>';
+        html += '<a href="/book/test_me?book_id=' + app.model.current_book.id + '&response_piece_id=' + app.model.response_piece_id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>';
         html += '<div class="accordion accordion-flush" id="accordionFlushExample">'
     
         for(var i = 0; i < app.model.subprompt_response_list.length; i++) {
@@ -285,7 +285,7 @@ app.view = {
 
         var html = '';
         html += '<section class="lev3-content"><div class="accordion-body"> <div class="accordion-inner">';
-        html += '<a href="/test_me?book_id=' + app.model.current_book.id + '&response_piece_id=' + app.model.subresponse_piece_id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>'
+        html += '<a href="/book/test_me?book_id=' + app.model.current_book.id + '&response_piece_id=' + app.model.subresponse_piece_id + '" class="border-0 btn btn-gradient btn-xl">Test Me on this section</a>'
         html += '<div class="accordion-wrap">'
 
         html += '<div class="tab-content">';
@@ -317,7 +317,7 @@ app.view = {
         html += '<div class="col-12 col-md-2 ps-4 hero-thumb"> <figure class="rounded-4">';
         html += '<img src="' + app.model.image_url + '" width=184px height=240px alt="hero-thumb" class="w-100">';
         html += '</figure> </div> <div class="col-12 col-md-10 hero-text">';
-        html += '<a href=/book?id=' + app.model.content_info.book_id + ' class="d-flex ms-0 ms-md-4 align-items-center back-link">';
+        html += '<a href=/book/book?id=' + app.model.content_info.book_id + ' class="d-flex ms-0 ms-md-4 align-items-center back-link">';
         html += '<img src="/template/static/svgs/back-arrow.svg" alt="">';
         html += '<span class="ps-4 fw-semibold">Back to ' + app.model.title + '</span>';
         html += '</a> </div>'

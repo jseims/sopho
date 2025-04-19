@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div>
+  <section class="hero-wrap">
+    <div class="col-12 col-md-10 text-center text-md-start ms-auto me-auto mt-3 mt-md-0 ps-0 pe-0 about-text">
+      <h4 class="d-block mt-3 mt-md-4 pb-3 fw-medium">Can AI help humans coordinate?</h4>
+        <p>One thing that really bothers me is that when a group of people think about something, the quality of this thinking often decreases as the size of the group increases.</p>
+        <p>I am hopeful that AI *may* be able to help for a couple reasons:</p>
+        <ul>
+          <li>AI can be seen as a neutral third party, which allows for AI decisions to be Schelling Points between groups that are otherwise locked in a win/lose power dynamic.</li>
+          <li>AI is capable of holding far more state than a human, so it should be able to navigate greater complexity.</li>
+        </ul>
+        <p>To that end, I have built my first attempt at exploring these possibilities through email addresses that respond via AI models.  I chose email because it's a familiar interface that allows multiple people to engage in a single conversation.</p>
+        <p>To use, simply CC one of the following email addresses and it will respond to your thread:</p>
+        <p><ul>
+          <li><b>mediator@sopho.ai</b>: acts as a mediator to guide the participants toward understanding one another's perspectives and finding common ground.</li>
+          <li><b>facilitator@sopho.ai</b>: helps groups of people makes plans together by gathering their individual preferences and proposing win/win approaches.</li>
+          <li><b>judge@sopho.ai</b>: evaluates each person's argument on factual accuracy, strength of reasoning and clarity.</li>           
+          <li><b>aita@sopho.ai</b>: responds in a humorous, light-hearted way and makes judgments like Reddit's AmITheAsshole community.  I like this one for minor beefs with friends. My personal favorite :)</li>
+          <li><b>support@sopho.ai</b>: tries to be helpful and will explain the usage of these email addresses.</li>
+        </ul></p>
+        <p>Please <a href="contact">reach out</a> if you have any comments.</p>
+        <p>- Josh</p>
+  </div> 
+  </section>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+
+{% block page_title %}About Sopho.ai{% endblock %}
+{% block email_active %}ps-1 pe-1 active{% endblock %}

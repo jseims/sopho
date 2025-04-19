@@ -18,7 +18,7 @@ queue_url = SQS_URL
 # Send the message
 response = sqs.send_message(
     QueueUrl=queue_url,
-    MessageBody="7152339817433831464"
+    MessageBody="4516343208876698358"
 )
 
 print("Message sent! ID:", response['MessageId'])

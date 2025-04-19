@@ -2,46 +2,40 @@
 
 
 {% block content %}
-            <!-- Hero section start -->
-            <section class="bg-black-dark hero-wrap">
-                <div class="rounded-5 bg-style hero-inner" style="background-image: url('template/static/img/hero-bg.png');">
-                    <div class="container-xl">
-                        <div class="row align-items-center ">
-                            <div class="col-12 col-md-6 order-2  order-md-1 p-0 text-center text-md-start mt-4 mt-md-0 hero-text">
-                                <h1 class="mb-3 mb-md-4 text-white">Let <span class="text-merun">AI</span><br> Chew Books</h1>
-                                <p class="fs-4 lh-base fw-normal text-light-gray">So you can swallow them more easily</p>
-                                <a href="#book_list" class="rounded d-flex align-items-center justify-content-center border-0 btn btn-primary btn-lg">Click a Book 
-                                    <svg class="ms-2" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M4 10.4167H17M17 10.4167L11.5833 5M17 10.4167L11.5833 15.8333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </a>
-                            </div>
-                            <div class="col-12 col-md-6 order-1 order-md-2 hero-thumb">
-                                <figure>
-                                    <img src="template/static/img/hero-thumb.png" alt="hero-thumb" class="w-100">
-                                </figure>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- Hero section end -->
 
-            <section class="bg-black-dark blog">
-                <div class="container-xl">
-                    <div class="row">
-                        <div class="card-wrap" id="book_list"></div>
-                    </div>
-                </div>
-            </section>
+<div>
+  <section class="hero-wrap">
+    <div class="rounded-5 bg-style hero-inner" style="background-image: url(/template/static/img/faq-hero-bg.jpg);">
+      <div class="container-xl"> 
+        <div class="row align-items-center"> 
+          <div class="col-12 col-md-6 ps-0 pe-0 pe-lg-4 hero-thumb">
+            <figure> <img src="/template/static/img/sopho_brain2.jpg" alt="hero-thumb" class="w-100"> </figure> 
+          </div>
+          <div class="col-12 col-md-6 text-center text-md-start ms-auto me-auto mt-3 mt-md-0 ps-0 pe-0 about-text">
+            <h4 class="d-block mt-3 mt-md-4 pb-3 fw-medium">Experimenting with AI making us smarter</h4>
+              <p>Current AI models are smarted than us in some ways (breadth of knowledge, cognitive speed, not being affected by emotions / status games) and dumber than us in 
+                other ways (math, semantic understanding of what things really mean).
+              </p>
+              <p>I am fascinated with how we can leverage AI to make us humans smarter and better able to make decisions together.</p>
+              <p>I have built a couple features to explore this potential:
+                <ul>
+                  <li><a href="email/">AI-powered email aliases</a> so that multiple people can interact with the same AI through email.</li>
+                  <li><a href="book/">Hierarchical book summarization</a> that uses AI to make it easier to find the parts of books you find interesting.</li>
+                </ul>
+              </p>
+              <p>This is a work in progress, so please <a href="contact">reach out</a> if you have any comments.</p>
+              <p>- Josh</p>
+          </div> 
+        </div> 
+      </div> 
+    </div> 
+  </section>
+</div>
+
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript"> 
-  app.model.get_books();
-</script> 
 {% endblock %}
 
-{% block page_title %}AI Makes Books Easier to Read{% endblock %}
-{% block container_class %}hp{% endblock %}
+{% block page_title %}Home Sopho.ai{% endblock %}
 {% block home_active %}ps-1 pe-1 active{% endblock %}
