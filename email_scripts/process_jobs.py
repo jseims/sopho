@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import time, random
+import traceback
 import boto3
 from botocore.exceptions import ClientError
 from EmailDelegate import EmailDelegate
@@ -94,8 +95,9 @@ while True:
                 # use email delegate to send the message
                 delegate.send_message(response)
         except Exception as e:
-            error_message = str(e)
-            save_error_response(job_id, error_message)
+            stack_trace = traceback.format_exc()
+            print("ERROR: " + stack_trace)
+            save_error_response(job_id, stack_trace)
         finally:
             sqs.delete_message(
                 QueueUrl=queue_url,
