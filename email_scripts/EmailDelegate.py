@@ -27,24 +27,26 @@ class EmailDelegate(MessageDelegate):
 
     # remove all @sopho.ai emails to prevent loops and merge to and cc into a single string
     def _cleanup_to(self, email_list):
-        # Split on commas and strip whitespace
-        raw_addresses = [addr.strip() for addr in email_list.split(',') if addr.strip()]
-
-        # Extract actual email addresses using regex
-        email_regex = re.compile(r'[\w\.-]+@[\w\.-]+')
         filtered = []
 
-        print("raw addr")
-        print(raw_addresses)
+        if email_list:
+            # Split on commas and strip whitespace
+            raw_addresses = [addr.strip() for addr in email_list.split(',') if addr.strip()]
 
-        for entry in raw_addresses:
-            match = email_regex.search(entry)
-            if match:
-                email = match.group(0)
-                if not email.lower().endswith("@sopho.ai"):
-                    filtered.append(entry)
-                else:
-                    self.sopho_email = email
+            # Extract actual email addresses using regex
+            email_regex = re.compile(r'[\w\.-]+@[\w\.-]+')
+
+            print("raw addr")
+            print(raw_addresses)
+
+            for entry in raw_addresses:
+                match = email_regex.search(entry)
+                if match:
+                    email = match.group(0)
+                    if not email.lower().endswith("@sopho.ai"):
+                        filtered.append(entry)
+                    else:
+                        self.sopho_email = email
 
         return filtered
 
