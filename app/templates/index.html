@@ -1,20 +1,20 @@
 {% extends "base.html" %}
 
-
 {% block content %}
 
-<div>
-  <section class="hero-wrap">
-    <div class="rounded-5 bg-style hero-inner" style="background-image: url(/template/static/img/faq-hero-bg.jpg);">
+  <section class="bg-black-dark hero-wrap">
+    <div class="rounded-5 bg-style hero-inner" style="background-image: url('/template/static/img/hero-bg.png');">
       <div class="container-xl"> 
         <div class="row align-items-center"> 
-          <div class="col-12 col-md-6 ps-0 pe-0 pe-lg-4 hero-thumb">
-            <figure> <img src="/template/static/img/ai-humans.jpg" alt="hero-thumb" class="w-100"> </figure> 
+          <div class="col-12 col-md-6 order-1 order-md-1 hero-thumb">
+            <figure>
+                <img src="/template/static/img/ai-humans-thumb.png" alt="hero-thumb" class="w-100">
+            </figure>
           </div>
-          <div class="col-12 col-md-6 text-center text-md-start ms-auto me-auto mt-3 mt-md-0 ps-0 pe-0 about-text">
+          <div class="col-12 col-md-6 text-md-start ms-auto me-auto mt-3 mt-md-0 ps-0 pe-0 about-text order-2 order-md-2">
             <h4 class="d-block mt-3 mt-md-4 pb-3 fw-medium">Experimenting with AI making us smarter</h4>
               <p>Current AI models are smarted than us in some ways (breadth of knowledge, cognitive speed, not being affected by emotions / status games) and dumber than us in 
-                other ways (math, semantic understanding of what things really mean).
+                other ways (basic arithmetic, semantic understanding of what things really mean).
               </p>
               <p>I am fascinated with how we can leverage AI to make us humans smarter and better able to make decisions together.</p>
               <p>I have built a couple features to explore this potential:
@@ -30,7 +30,6 @@
       </div> 
     </div> 
   </section>
-</div>
 
 {% endblock %}
 
@@ -38,4 +37,3 @@
 {% endblock %}
 
 {% block page_title %}Home Sopho.ai{% endblock %}
-{% block home_active %}ps-1 pe-1 active{% endblock %}

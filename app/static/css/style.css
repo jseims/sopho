@@ -251,7 +251,7 @@ body{
 
 /*Hero style*/
 .hero-wrap{
-    padding:0 58px;
+    padding:20px 58px;
     background:#0E0E0E;
     margin-top: -1px;
 }
@@ -294,7 +294,7 @@ body{
 .hp .hero-inner{
     padding: 96px 12px;
 }
-.hp .hero-thumb figure{
+.hero-thumb figure{
     background-color: transparent;
 }
 .blog{
@@ -720,7 +720,9 @@ body{
         width:110px;
     }
     .hero-wrap{
-        padding:0 12px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-bottom: 20px;
     }
     .hero-inner,
     .hp .hero-inner{
@@ -893,7 +895,9 @@ body{
         padding: 0 60px;
     }
     .hero-wrap{
-        padding:0 12px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-bottom: 20px;
     }
     .hero-text h1 { 
             font-size: 40px;
@@ -927,7 +931,9 @@ body{
 @media only screen and (min-width: 991px) and (max-width: 1280px) {
    
     .hero-wrap{
-        padding:0 12px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-bottom: 20px;
     }
     .hero-text h1{
         font-size: 50px; 
