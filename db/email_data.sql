@@ -115,6 +115,8 @@ aita@sopho.ai is a fun one that will listen to both sides and say who is being t
 
 mediator@sopho.ai will mediate a high-conflict conversation, helping both sides articulate their most important values.
 
+deepen@sopho.ai will bring nuances and other perspectives to deepen a conversation.
+
 judge@sopho.ai will act like a debate judge, and evaluate each person's argument on the its logic.
 
 faciliator@sopho.ai will try to problem solve and come up with the best win/win approaches for groups of people.
